@@ -1,0 +1,69 @@
+{
+  "short_name": "WA",
+  "name": "WA - the AI Generation Platform",
+  "description": "欢迎来到 WA，今天想画点什么？ 这里是 WA，一个基于 Stable Diffusion 的 AI 生成平台，我们在这里提供免费的图片生成服务。",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "shortcuts": [
+    {
+      "name": "模型",
+      "description": "本站提供大量模型，包括但不限于SD1.5、SDXL、Pony等，并支持各种Lora风格模型，通过使用它们，你可以画出任何你想要的图片。",
+      "url": "/models",
+      "icons": [
+        {
+          "src": "/logo/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "帖子",
+      "description": "点击此处，查看本站用户天马行空的创作。使用本站每日免费提供的算力点，你也可以加入我们的创作行列。",
+      "url": "/posts",
+      "icons": [
+        {
+          "src": "/logo/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://upload-bbs.miyoushe.com/upload/2024/11/26/275216545/6f984f1c8be79a0ab588b37883805eb2_5431801883677038852.png",
+      "sizes": "512x768",
+      "type": "image/png"
+    },
+    {
+      "src": "https://upload-bbs.miyoushe.com/upload/2024/11/17/275216545/fc65ec3b9d78a842940fc49e410bbc06_170384120200738184.png",
+      "sizes": "512x768",
+      "type": "image/png"
+    },
+    {
+      "src": "https://upload-bbs.miyoushe.com/upload/2024/11/15/275216545/c6e4560a1d2bd0265509023a410c8d7d_8062914584612761950.png",
+      "sizes": "512x768",
+      "type": "image/png"
+    }
+  ]
+}
