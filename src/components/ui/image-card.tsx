@@ -6,6 +6,7 @@ import { Chip } from "@heroui/chip";
 import { Heart, Info, Star } from "lucide-react";
 import { Tooltip } from "@heroui/tooltip";
 import { Button } from "@heroui/button";
+import { useState } from "react";
 
 interface ImageCardProps {
   width: number;
@@ -59,6 +60,8 @@ export default function ImageCard(
     onFavouriteBtnClick
   }: ImageCardProps
 ) {
+  const [tooltipOpen, setTooltipOpen] = useState(false)
+
   return (
     <Card
       isPressable={true}
@@ -137,13 +140,16 @@ export default function ImageCard(
                   </div>
                 </div>
               )}
+              isOpen={tooltipOpen}
               showArrow={true}
+              onOpenChange={setTooltipOpen}
             >
               <Button
                 className={"text-white"}
                 isIconOnly={true}
                 size={"sm"}
                 variant={"light"}
+                onPress={() => setTooltipOpen(true)}
               >
                 <Info size={18} />
               </Button>

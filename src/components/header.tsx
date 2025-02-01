@@ -21,7 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@heroui/button";
 import NiceModal from "@ebay/nice-modal-react";
 
-import { headerMenuConfig } from "@/config/menu.tsx";
+import { headerMenuConfig } from "@/config/menus.tsx";
 import BannerButton from "@/components/ui/banner-button.tsx";
 import { useTheme } from "@/hooks/use-theme.ts";
 import { modalIdsRegister } from "@/config/modals.ts";
@@ -185,6 +185,7 @@ export const Header = () => {
                   </Button>
                   <Button
                     className={"mt-1 ml-2 text-sm font-semibold"}
+                    color={"warning"}
                     size={"sm"}
                     startContent={<Info size={18} />}
                     variant={"light"}

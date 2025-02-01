@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, MousePointer } from "lucide-react";
 import { Button } from "@heroui/button";
 import { Drawer, DrawerContent } from "@heroui/drawer";
 
-import { sidebarSection } from "@/config/menu.tsx";
+import { sidebarSection } from "@/config/menus.tsx";
 import { useIsMobile } from "@/hooks/use-mobile.tsx";
 
 /**
