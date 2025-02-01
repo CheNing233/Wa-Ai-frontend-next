@@ -6,6 +6,8 @@
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Licence](https://img.shields.io/badge/license-AGPL_3.0-green?style=for-the-badge)
 
+目前算力服务器已挂，刚好DeepSeek出来，就顺便又重构一下。该仓库仍在开发中！
+
 最初的目的是想蹭学校的显卡，打造一个类似吐司的stable-diffusion AI生成平台，提供多种AI绘画生成服务，包括但不限于：
 
 - 图像生成
