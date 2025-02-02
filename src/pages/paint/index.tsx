@@ -16,6 +16,10 @@ const Models = lazyLoad(
   () => import("@/pages/paint/models.tsx")
 );
 
+const Prompts = lazyLoad(
+  () => import("@/pages/paint/prompts.tsx")
+);
+
 export default function PaintPage() {
   return (
     <SidebarProvider>
@@ -41,6 +45,10 @@ export default function PaintPage() {
           <Route
             element={<Models />}
             path={"models"}
+          />
+          <Route
+            element={<Prompts />}
+            path={"prompts"}
           />
         </Routes>
       </SidebarMain>

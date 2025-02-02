@@ -3,7 +3,7 @@ interface filterItem {
   label: string;
 }
 
-interface filterSection {
+export interface filterSection {
   sectionTitle: string;
   items: filterItem[];
 }

@@ -83,7 +83,7 @@ export const sidebarMenuConfig: sidebarMenu = {
         },
         {
           label: "提示词",
-          href: "/paint/tags",
+          href: "/paint/prompts",
           description: "Danbooru Tag",
           icon: <TagIcon className={iconClasses} />
         },

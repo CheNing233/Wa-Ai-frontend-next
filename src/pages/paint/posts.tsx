@@ -6,6 +6,8 @@ import { useState } from "react";
 
 import Container from "@/components/ui/container.tsx";
 import ImageCard from "@/components/ui/image-card.tsx";
+import NiceModal from "@ebay/nice-modal-react";
+import { modalIdsRegister } from "@/config/modals.ts";
 
 const _generateItems = () => {
   const randomObjects: WaterfallItems[] = [];
@@ -27,6 +29,10 @@ const _generateItems = () => {
               userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
               userNickName={"xChenNing"}
               width={w}
+              onCardClick={() => {
+                console.log("clicked", id);
+                NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
+              }}
             />
           </div>
         );
@@ -70,6 +76,9 @@ export default function PostsPage() {
             size={"lg"}
             startContent={<Plus size={20} />}
             variant={"shadow"}
+            onPress={() => {
+              NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
+            }}
           >
             发布帖子
           </Button>
