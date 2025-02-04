@@ -102,17 +102,21 @@ const PromptsBox = () => {
         />
       </div>
 
-      <Textarea
-        label={"采样步数"}
-        labelPlacement={"outside"}
-        minRows={1}
-      />
+      <div className={"flex flex-row gap-3 mt-2"}>
+        <Textarea
+          className={"flex-1"}
+          label={"采样方法"}
+          labelPlacement={"outside"}
+          minRows={1}
+        />
 
-      <Textarea
-        label={"采样方法"}
-        labelPlacement={"outside"}
-        minRows={1}
-      />
+        <Textarea
+          className={"basis-20 shrink-0"}
+          label={"采样步数"}
+          labelPlacement={"outside"}
+          minRows={1}
+        />
+      </div>
 
       <Textarea
         label={"CFG"}

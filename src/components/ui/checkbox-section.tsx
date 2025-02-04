@@ -1,7 +1,7 @@
 import { CheckboxGroup, useCheckbox } from "@heroui/checkbox";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import { Chip } from "@heroui/chip";
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle, Circle, RotateCcw } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@heroui/button";
 
@@ -86,9 +86,7 @@ export default function CheckboxSection(
         ))
       }
       <Button
-        color={"primary"}
-        size={"sm"}
-        variant={"shadow"}
+        startContent={<RotateCcw size={20} />}
         onPress={() => _setSelected([])}
       >
         重置所有

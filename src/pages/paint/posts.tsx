@@ -3,10 +3,10 @@ import { Button } from "@heroui/button";
 import { Plus } from "lucide-react";
 import { WaterfallItems, XCNWaterfall } from "xcn-waterfall";
 import { useState } from "react";
+import NiceModal from "@ebay/nice-modal-react";
 
 import Container from "@/components/ui/container.tsx";
 import ImageCard from "@/components/ui/image-card.tsx";
-import NiceModal from "@ebay/nice-modal-react";
 import { modalIdsRegister } from "@/config/modals.ts";
 
 const _generateItems = () => {

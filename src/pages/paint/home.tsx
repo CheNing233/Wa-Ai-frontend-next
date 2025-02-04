@@ -10,6 +10,7 @@ import { Tooltip } from "@heroui/tooltip";
 import { title } from "@/components/utils/primitives.ts";
 import ImageCard from "@/components/ui/image-card.tsx";
 import Container from "@/components/ui/container.tsx";
+import FlexCol from "@/components/ui/flex-col.tsx";
 
 const Banner = () => (
   <div className={"w-full py-2"}>
@@ -68,8 +69,8 @@ const ICard = () => {
   return (
     <div
       style={{
-        aspectRatio: "3/4",
-        flex: "1 1 calc(25% - 12px * 3 / 4)"
+        aspectRatio: "3/4"
+        // flex: "1 1 calc(25% - 12px * 3 / 4)"
       }}
     >
       <ImageCard
@@ -111,7 +112,19 @@ export default function PaintHome() {
         <p className={"opacity-50"}>
           来看看魔法师们今天的创作吧！
         </p>
-        <div className={"flex flex-row flex-wrap gap-3 py-5"}>
+
+        <FlexCol
+          className={"mt-4"}
+          cols={{
+            xs: 2,
+            sm: 3,
+            lg: 4,
+            xl: 4,
+            xxl: 5
+          }}
+          gapX={1}
+          gapY={1}
+        >
           <ICard />
           <ICard />
           <ICard />
@@ -120,7 +133,7 @@ export default function PaintHome() {
           <ICard />
           <ICard />
           <ICard />
-        </div>
+        </FlexCol>
       </div>
     </Container>
   );
