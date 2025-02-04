@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Listbox, ListboxItem, ListboxSection } from "@heroui/listbox";
 import { Divider } from "@heroui/divider";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, MousePointer } from "lucide-react";
+import { ArrowUpToLine, ChevronLeft, ChevronRight, MousePointer } from "lucide-react";
 import { Button } from "@heroui/button";
 import { Drawer, DrawerContent } from "@heroui/drawer";
 
@@ -212,14 +212,33 @@ export function SidebarMain(
     children?: ReactNode;
   }
 ) {
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const handleBackTop = () => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
     <main
+      ref={mainRef}
       className={"flex-1 overflow-y-scroll overflow-x-hidden"}
       style={{
         height: "calc(100dvh - 64px)"
       }}
     >
       {children}
+      <Button
+        className={"absolute right-4 bottom-4"}
+        isIconOnly={true}
+        onPress={handleBackTop}
+      >
+        <ArrowUpToLine size={20} />
+      </Button>
     </main>
   );
 }

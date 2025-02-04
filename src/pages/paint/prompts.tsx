@@ -6,9 +6,10 @@ import { Button } from "@heroui/button";
 import { Copy, HelpCircle, Send, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
+
 import Container from "@/components/ui/container.tsx";
 import PromptButton from "@/components/ui/prompt-button.tsx";
-import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
 
 function generateRandomPromptButtons(num: number) {
@@ -57,7 +58,7 @@ const PromptsCard = (props: any) => {
         const cardHeight = cardRef.current.getBoundingClientRect().height;
         const cardWidth = cardRef.current.getBoundingClientRect().width;
 
-        console.log("id", props.name, "cardHeight", cardHeight, "cardWidth", cardWidth);
+        // console.log("id", props.name, "cardHeight", cardHeight, "cardWidth", cardWidth);
         updateItem({
           width: cardWidth,
           height: cardHeight + 12
@@ -126,7 +127,7 @@ const WaterfallContainer = (
   return (
     <div
       ref={scrollContainerRef}
-      className={"w-full h-[30dvh] overflow-y-scroll overflow-x-hidden"}
+      className={"w-full h-[80dvh] overflow-y-scroll overflow-x-hidden"}
     >
       <XCNWaterfall
         columns={1}
@@ -190,13 +191,16 @@ export default function PromptsPage() {
         <p className={"opacity-50"}>
           新时代咒语词典大全喵！
         </p>
-        <div className={"block w-full pt-5 h-[calc(80dvh-5rem)]"}>
+        <div className={
+          "block w-full pt-5 "
+          // + "h-[calc(80dvh-5rem)]"
+        }>
 
           <div className={"h-full w-full flex flex-col flex-nowrap gap-3"}>
 
             {/*input box*/}
             <div className={"flex-1"}>
-              <Card className={"h-full relative"}>
+              <Card className={"h-[20dvh] relative"}>
                 <CardBody>
                   这里是输入框
                 </CardBody>
