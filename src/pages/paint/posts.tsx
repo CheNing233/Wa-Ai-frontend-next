@@ -2,7 +2,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { Plus } from "lucide-react";
 import { WaterfallItems, XCNWaterfall } from "xcn-waterfall";
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 
 import Container from "@/components/ui/container.tsx";
@@ -89,6 +89,7 @@ export default function PostsPage() {
         <div className={"block w-[calc(100%+1rem)] py-5 -ml-2"}>
           <XCNWaterfall
             data={data}
+            scrollContainer={"#main"}
           />
         </div>
       </div>

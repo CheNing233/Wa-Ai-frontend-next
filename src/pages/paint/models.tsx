@@ -76,6 +76,7 @@ export default function ModelsPage() {
         <div className={"block w-[calc(100%+1rem)] py-5 -ml-2"}>
           <XCNWaterfall
             data={data}
+            scrollContainer={"#main"}
           />
         </div>
       </div>

@@ -10,6 +10,7 @@ import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../.
 
 import Container from "@/components/ui/container.tsx";
 import PromptButton from "@/components/ui/prompt-button.tsx";
+import { debounce } from "@/utils/flow-control.ts";
 
 
 function generateRandomPromptButtons(num: number) {
@@ -50,10 +51,10 @@ const PromptsCard = (props: any) => {
     initState, computedPosition, computedItemsInView, setItemsToRender
   } = useXCNWaterfallItem(props.name);
 
-  const [data] = useState(generateRandomPromptButtons(100));
+  const [data] = useState(generateRandomPromptButtons(50));
 
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize = debounce(() => {
       if (cardRef.current) {
         const cardHeight = cardRef.current.getBoundingClientRect().height;
         const cardWidth = cardRef.current.getBoundingClientRect().width;
@@ -67,7 +68,7 @@ const PromptsCard = (props: any) => {
         computedPosition();
         setItemsToRender(computedItemsInView());
       }
-    };
+    });
 
     const resizeObserver = new ResizeObserver(handleResize);
 
@@ -132,7 +133,7 @@ const WaterfallContainer = (
       <XCNWaterfall
         columns={1}
         data={simuPrompts}
-        scrollContainerRef={scrollContainerRef}
+        scrollContainer={scrollContainerRef}
       />
     </div>
   );
@@ -168,7 +169,8 @@ const tabs = [
 
 
 export default function PromptsPage() {
-  const [simuPrompts, setSimuPrompts] = useState(generateWaterfallItems(3));
+
+  const [simuPrompts, setSimuPrompts] = useState(generateWaterfallItems(10));
 
   const bottomRef = useRef(null);
 
@@ -267,7 +269,9 @@ export default function PromptsPage() {
                   <Tab key={item.id} title={item.label}>
                     <Card className={"h-full relative"}>
                       <CardBody>
-                        <WaterfallContainer simuPrompts={simuPrompts} />
+                        <WaterfallContainer
+                          simuPrompts={simuPrompts}
+                        />
                       </CardBody>
                     </Card>
                   </Tab>
