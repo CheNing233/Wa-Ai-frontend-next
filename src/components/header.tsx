@@ -142,7 +142,7 @@ export const Header = () => {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src="https://avatars.githubusercontent.com/u/32773451?v=4"
             />
           </DropdownTrigger>
           <DropdownMenu
@@ -159,7 +159,7 @@ export const Header = () => {
                   color="secondary"
                   name="Jason Hughes"
                   size="sm"
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  src="https://avatars.githubusercontent.com/u/32773451?v=4"
                 />
                 <div>
                   <p className="font-semibold">xChenNing</p>

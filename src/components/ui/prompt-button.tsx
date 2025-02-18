@@ -1,33 +1,33 @@
-import { Card, CardBody, CardProps } from "@heroui/card";
+import { Button, ButtonProps } from "@heroui/button";
 
 
 export interface PromptButtonProps {
   primaryText: string;
   secondaryText: string;
-  cardProps?: CardProps;
+  buttonProps?: ButtonProps;
 }
 
 export default function PromptButton(
   {
     primaryText,
     secondaryText,
-    cardProps
+    buttonProps
   }: PromptButtonProps
 ) {
 
   return (
-    <Card
-      isPressable={true}
-      {...cardProps}
+    <Button
+      {...buttonProps}
+      className={"relative px-0 " + buttonProps?.className}
     >
-      <CardBody className={"flex flex-col flex-nowrap justify-center px-2 py-1"}>
-        <div className={"w-full text-center"}>
+      <div className={"w-full flex flex-col flex-nowrap justify-center px-2 py-1"}>
+        <div className={"w-full text-center px-2"}>
           {primaryText}
         </div>
         <div
           className={
             "opacity-75 relative overflow-visible " +
-            "w-full text-center"
+            "w-full text-center px-2"
           }
         >
           {secondaryText}
@@ -38,7 +38,7 @@ export default function PromptButton(
             }
           />
         </div>
-      </CardBody>
-    </Card>
+      </div>
+    </Button>
   );
 }

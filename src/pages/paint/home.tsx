@@ -81,7 +81,7 @@ const ICard = () => {
         likeNum={isLiked ? 1 : 0}
         src={"/test.png"}
         title={"大萤酱AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
-        userAvatarUrl={"https://i.pravatar.cc/150?u=a042581f4e29026704d"}
+        userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
         userNickName={"xChenNing"}
         width={3}
         withRankBar={true}

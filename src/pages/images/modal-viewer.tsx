@@ -36,7 +36,7 @@ const ImageContent = () => {
             className="transition-transform"
             name={"xChenNing"}
             size="md"
-            src={"https://i.pravatar.cc/150?u=a042581f4e29026704d"}
+            src={"https://avatars.githubusercontent.com/u/32773451?v=4"}
           />
           <div className="flex flex-col items-start">
             <p className="text-md font-bold">xChenNing</p>
@@ -157,7 +157,7 @@ const Comment = () => {
           className={"transition-transform  flex-none"}
           name={"xChenNing"}
           size="md"
-          src={"https://i.pravatar.cc/150?u=a042581f4e29026704d"}
+          src={"https://avatars.githubusercontent.com/u/32773451?v=4"}
         />
 
         <Textarea

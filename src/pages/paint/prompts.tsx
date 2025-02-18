@@ -4,13 +4,12 @@ import { Switch } from "@heroui/switch";
 import { Tab, Tabs } from "@heroui/tabs";
 import { Button } from "@heroui/button";
 import { Copy, HelpCircle, Send, Trash2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
 import Container from "@/components/ui/container.tsx";
 import PromptButton from "@/components/ui/prompt-button.tsx";
-import { debounce } from "@/utils/flow-control.ts";
 
 
 function generateRandomPromptButtons(num: number) {
@@ -37,60 +36,63 @@ function generateRandomPromptButtons(num: number) {
     const primaryText = getRandomText(primaryLength, "en");
     const secondaryText = getRandomText(secondaryLength, "zh");
 
-    objects.push(<PromptButton primaryText={primaryText} secondaryText={secondaryText} />);
+    objects.push(<PromptButton key={i} primaryText={primaryText} secondaryText={secondaryText} />);
   }
 
   return objects;
 }
 
-const PromptsCard = (props: any) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  // 通过 useXCNWaterfallItem 获取到当前卡片的 item 数据，并修改并重新渲染该卡片
-  const {
-    item, updateItem,
-    initState, computedPosition, computedItemsInView, setItemsToRender
+const PromptsCard = (props: {
+  name: string;
+  page: number;
+  buttons: any[];
+}) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const { // 通过 useXCNWaterfallItem 获取到当前卡片的 item 数据，并修改并重新渲染该卡片
+    item, updateItem, fullReRender
   } = useXCNWaterfallItem(props.name);
 
-  const [data] = useState(generateRandomPromptButtons(50));
+  const handleResize = useCallback(
+    (() => {
+      if (contentRef.current) {
+        const cardHeight = contentRef.current.offsetHeight;
+        const cardWidth = contentRef.current.offsetWidth;
 
-  useEffect(() => {
-    const handleResize = debounce(() => {
-      if (cardRef.current) {
-        const cardHeight = cardRef.current.getBoundingClientRect().height;
-        const cardWidth = cardRef.current.getBoundingClientRect().width;
+        console.log(item.id, "RESIZE", cardWidth, cardHeight);
 
-        // console.log("id", props.name, "cardHeight", cardHeight, "cardWidth", cardWidth);
         updateItem({
           width: cardWidth,
           height: cardHeight + 12
         });
-        initState();
-        computedPosition();
-        setItemsToRender(computedItemsInView());
-      }
-    });
 
+        fullReRender();
+      }
+    }),
+    [contentRef.current]
+  );
+
+  useEffect(() => {
     const resizeObserver = new ResizeObserver(handleResize);
 
-    if (cardRef.current)
-      resizeObserver.observe(cardRef.current);
+    if (contentRef.current) {
+      resizeObserver.observe(contentRef.current);
+    }
 
     return () => {
-      if (cardRef.current)
-        resizeObserver.unobserve(cardRef.current);
+      if (contentRef.current)
+        resizeObserver.unobserve(contentRef.current);
     };
-  }, [cardRef.current]);
+  }, [contentRef.current, handleResize]);
 
   return (
     <div className={"relative w-full"}>
-      <div ref={cardRef} className={"absolute left-0 top-3 w-full"}>
-        <div className={"flex flex-row flex-wrap gap-3"}>
-          <PromptButton
-            primaryText={"================== PAGE N =================="}
-            secondaryText={"================== 页分割 =================="}
-          />
-          {data}
-        </div>
+      <div ref={contentRef} className={"flex flex-row flex-wrap gap-3"}>
+        <PromptButton
+          primaryText={`================== PAGE ${props.page} ==================`}
+          secondaryText={item.id}
+        />
+        {props.buttons.map((button) => button)}
       </div>
     </div>
   );
@@ -101,13 +103,14 @@ const generateWaterfallItems = (num: number) => {
 
   for (let i = 0; i < num; i++) {
     const id = "id-" + Math.random().toString(36).substr(2, 9) + new Date().getTime();
+    const buttons = generateRandomPromptButtons(50);
 
     items.push(
       {
         id: id,
-        width: 200,
+        width: 1000,
         height: 200,
-        content: () => <PromptsCard name={id} />
+        content: () => <PromptsCard buttons={buttons} name={id} page={i} />
       } as WaterfallItems
     );
   }
@@ -115,15 +118,18 @@ const generateWaterfallItems = (num: number) => {
   return items;
 };
 
-const WaterfallContainer = (
-  {
-    simuPrompts
-  }: {
-    simuPrompts: WaterfallItems[]
-  }
-) => {
+const WaterfallContainer = () => {
 
   const scrollContainerRef = useRef(null);
+
+  const [d] = useState(generateWaterfallItems(10));
+
+  // const handleRequestBottomMore = () => {
+  //   if (num.current > 0) return [];
+  //   num.current += 1;
+  //
+  //   return generateWaterfallItems(10);
+  // };
 
   return (
     <div
@@ -132,8 +138,10 @@ const WaterfallContainer = (
     >
       <XCNWaterfall
         columns={1}
-        data={simuPrompts}
+        data={d}
+        debugMode={false}
         scrollContainer={scrollContainerRef}
+        // onRequestBottomMore={handleRequestBottomMore}
       />
     </div>
   );
@@ -169,9 +177,6 @@ const tabs = [
 
 
 export default function PromptsPage() {
-
-  const [simuPrompts, setSimuPrompts] = useState(generateWaterfallItems(10));
-
   const bottomRef = useRef(null);
 
   return (
@@ -269,9 +274,7 @@ export default function PromptsPage() {
                   <Tab key={item.id} title={item.label}>
                     <Card className={"h-full relative"}>
                       <CardBody>
-                        <WaterfallContainer
-                          simuPrompts={simuPrompts}
-                        />
+                        <WaterfallContainer />
                       </CardBody>
                     </Card>
                   </Tab>

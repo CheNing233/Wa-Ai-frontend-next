@@ -2,7 +2,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { Plus } from "lucide-react";
 import { WaterfallItems, XCNWaterfall } from "xcn-waterfall";
-import { RefObject, useState } from "react";
+import { useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 
 import Container from "@/components/ui/container.tsx";
@@ -10,27 +10,28 @@ import ImageCard from "@/components/ui/image-card.tsx";
 import { modalIdsRegister } from "@/config/modals.ts";
 
 const _generateItems = () => {
-  const randomObjects: WaterfallItems[] = [];
+  const randomObjects: any[] = [];
 
   for (let i = 0; i < 50; i++) {
     const w = Math.floor(Math.random() * (1024 - 512 + 1)) + 512;  // 随机宽度在512到1024之间
     const h = Math.floor(Math.random() * (1024 - 512 + 1)) + 512;
     const id = "id-" + Math.random().toString(36).substr(2, 9) + new Date().getTime();
 
-    const obj: WaterfallItems = {
+    const obj = {
       id: id,
-      content: () => {
+      content: ({ item }: { item: WaterfallItems }) => {
         return (
           <div className={"w-full h-full p-2"}>
             <ImageCard
-              height={h}
+              height={item.height}
               src={"/test.png"}
-              title={id}
+              title={item.id}
               userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
               userNickName={"xChenNing"}
-              width={w}
+              width={item.width}
+              withRankBar={true}
               onCardClick={() => {
-                console.log("clicked", id);
+                console.log("clicked", item.id);
                 NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
               }}
             />
@@ -89,6 +90,7 @@ export default function PostsPage() {
         <div className={"block w-[calc(100%+1rem)] py-5 -ml-2"}>
           <XCNWaterfall
             data={data}
+            debugMode={false}
             scrollContainer={"#main"}
           />
         </div>
