@@ -12,12 +12,12 @@ interface ImageCardProps {
   height: number;
 
   src: string;
-  title: string;
+  title?: string;
   tooltipContent?: string;
   onCardClick?: () => void;
 
-  userNickName: string;
-  userAvatarUrl: string;
+  userNickName?: string;
+  userAvatarUrl?: string;
   userUpdatedAt?: string;
   onFollowUser?: () => void;
   onNavigateToUser?: () => void;
@@ -87,7 +87,7 @@ export default function ImageCard(
       >
         <div className="flex flex-col w-full gap-1">
           {/*user info*/}
-          <Dropdown>
+          {(userAvatarUrl && userNickName) && <Dropdown>
             <DropdownTrigger>
               <div className="flex flex-grow gap-2 items-center cursor-pointer">
                 <Avatar
@@ -118,10 +118,10 @@ export default function ImageCard(
                 查看主页
               </DropdownItem>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown>}
 
           {/*title*/}
-          <div
+          {title && <div
             className={"flex flex-row items-center"}
           >
             <h2
@@ -146,7 +146,7 @@ export default function ImageCard(
             >
               <Info size={18} />
             </Tooltip>
-          </div>
+          </div>}
 
           {/*rank bar*/}
           {withRankBar && <div className={"flex flex-row flex-nowrap gap-2 justify-start"}>

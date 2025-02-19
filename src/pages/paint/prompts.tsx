@@ -59,8 +59,6 @@ const PromptsCard = (props: {
         const cardHeight = contentRef.current.offsetHeight;
         const cardWidth = contentRef.current.offsetWidth;
 
-        console.log(item.id, "RESIZE", cardWidth, cardHeight);
-
         updateItem({
           width: cardWidth,
           height: cardHeight + 12
@@ -87,7 +85,7 @@ const PromptsCard = (props: {
 
   return (
     <div className={"relative w-full"}>
-      <div ref={contentRef} className={"flex flex-row flex-wrap gap-3"}>
+      <div ref={contentRef} className={"flex flex-row flex-wrap gap-4"}>
         <PromptButton
           primaryText={`================== PAGE ${props.page} ==================`}
           secondaryText={item.id}
@@ -124,12 +122,14 @@ const WaterfallContainer = () => {
 
   const [d] = useState(generateWaterfallItems(10));
 
-  // const handleRequestBottomMore = () => {
-  //   if (num.current > 0) return [];
-  //   num.current += 1;
-  //
-  //   return generateWaterfallItems(10);
-  // };
+  const num = useRef(0);
+
+  const handleRequestBottomMore = () => {
+    if (num.current > 0) return [];
+    num.current += 1;
+
+    return generateWaterfallItems(10);
+  };
 
   return (
     <div
@@ -141,7 +141,7 @@ const WaterfallContainer = () => {
         data={d}
         debugMode={false}
         scrollContainer={scrollContainerRef}
-        // onRequestBottomMore={handleRequestBottomMore}
+        onRequestBottomMore={handleRequestBottomMore}
       />
     </div>
   );
@@ -150,7 +150,12 @@ const WaterfallContainer = () => {
 const tabs = [
   {
     id: "danbooru-tags",
-    label: "Danbooru Tags 8w+",
+    label: "Danbooru Tags 80000+",
+    content: "Lorem ipsum agna aliqua. Ut enim ad miodo consequat."
+  },
+  {
+    id: "danbooru-artists",
+    label: "Danbooru Artists",
     content: "Lorem ipsum agna aliqua. Ut enim ad miodo consequat."
   },
   {

@@ -39,7 +39,7 @@ export default function BackTop(
 
   return (
     <Button
-      className={"absolute right-4 bottom-4"}
+      className={"absolute right-4 bottom-4 z-10"}
       isIconOnly={true}
       onPress={handleBackTop}
     >

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { HomeIcon, ListStartIcon, MonitorDotIcon, NewspaperIcon, SignpostIcon, TagIcon, User2Icon } from "lucide-react";
+import { HomeIcon, ListStartIcon, MonitorDotIcon, NewspaperIcon, SignpostIcon, TagIcon } from "lucide-react";
 
 interface menuItem {
   label: string;
@@ -84,14 +84,8 @@ export const sidebarMenuConfig: sidebarMenu = {
         {
           label: "提示词",
           href: "/paint/prompts",
-          description: "Danbooru Tag",
+          description: "Danbooru Data",
           icon: <TagIcon className={iconClasses} />
-        },
-        {
-          label: "画师",
-          href: "/paint/artists",
-          description: "Danbooru Artists",
-          icon: <User2Icon className={iconClasses} />
         }
       ]
     },
@@ -101,7 +95,7 @@ export const sidebarMenuConfig: sidebarMenu = {
         {
           label: "快速开始",
           href: "/paint/quick-start",
-          description: "新手推荐，无需部署",
+          description: "精简版A1111",
           icon: <ListStartIcon className={iconClasses} />
         },
         {

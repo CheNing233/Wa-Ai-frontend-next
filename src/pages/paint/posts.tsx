@@ -8,6 +8,7 @@ import NiceModal from "@ebay/nice-modal-react";
 import Container from "@/components/ui/container.tsx";
 import ImageCard from "@/components/ui/image-card.tsx";
 import { modalIdsRegister } from "@/config/modals.ts";
+import BackTop from "@/components/back-top.tsx";
 
 const _generateItems = () => {
   const randomObjects: any[] = [];
@@ -53,6 +54,8 @@ export default function PostsPage() {
 
   return (
     <Container>
+      <BackTop scrollContainer={"#main"} />
+
       <div className={"w-full py-2"}>
         <div className={"flex flex-row flex-nowrap items-center gap-3"}>
           <h2 className={"text-2xl flex-1 block"}>
@@ -89,6 +92,13 @@ export default function PostsPage() {
         </p>
         <div className={"block w-[calc(100%+1rem)] py-5 -ml-2"}>
           <XCNWaterfall
+            columnsGroup={{
+              xs: 2,
+              sm: 2,
+              md: 3,
+              lg: 4,
+              xl: 5
+            }}
             data={data}
             debugMode={false}
             scrollContainer={"#main"}

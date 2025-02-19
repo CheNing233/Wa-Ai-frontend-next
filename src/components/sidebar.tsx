@@ -224,7 +224,6 @@ export function SidebarMain(
       }}
     >
       {children}
-      <BackTop scrollContainer={"#main"} />
     </main>
   );
 }
