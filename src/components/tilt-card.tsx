@@ -30,8 +30,8 @@ const TiltCard = (
     const { offsetWidth, offsetHeight } = e.currentTarget;
 
     // 计算鼠标相对于父元素的坐标
-    const x = clientX - e.currentTarget.offsetLeft;
-    const y = clientY - e.currentTarget.offsetTop;
+    const x = clientX - e.currentTarget.getBoundingClientRect().left;
+    const y = clientY - e.currentTarget.getBoundingClientRect().top;
 
     // 计算旋转角度
     const rotateX = -((y / offsetHeight - 0.5) * 5);

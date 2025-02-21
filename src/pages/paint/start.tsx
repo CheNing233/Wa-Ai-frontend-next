@@ -1,18 +1,14 @@
-import Container from "@/components/ui/container.tsx";
-import ModelCard from "@/components/ui/model-card.tsx";
 import { Button } from "@heroui/button";
 import { ArrowLeftRight, PlusIcon, Settings, Smartphone, TvMinimal, X, Zap } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Input, Textarea } from "@heroui/input";
 import { Slider } from "@heroui/slider";
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import TiltCard from "@/components/tilt-card.tsx";
-import { Image } from "@heroui/image";
+import { Card, CardBody } from "@heroui/card";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
-import ImageCard from "@/components/ui/image-card.tsx";
-import NiceModal from "@ebay/nice-modal-react";
-import { modalIdsRegister } from "@/config/modals.ts";
+import ModelCard from "@/components/ui/model-card.tsx";
+import Container from "@/components/ui/container.tsx";
+import HistoryViewer from "@/components/workbench/historyViewer.tsx";
+import { Select, SelectItem } from "@heroui/select";
 
 function Tittle(
   {
@@ -91,46 +87,8 @@ function Selector() {
   );
 }
 
-const _generateItems = () => {
-  const randomObjects: any[] = [];
-
-  for (let i = 0; i < 50; i++) {
-    const w = Math.floor(Math.random() * (1024 - 512 + 1)) + 512;  // 随机宽度在512到1024之间
-    const h = Math.floor(Math.random() * (1024 - 512 + 1)) + 512;
-    const id = "id-" + Math.random().toString(36).substr(2, 9) + new Date().getTime();
-
-    const obj = {
-      id: id,
-      content: ({ item }: { item: WaterfallItems }) => {
-        return (
-          <div className={"w-full h-full p-2"}>
-            <ImageCard
-              height={item.height}
-              src={"/test.png"}
-              // title={item.id}
-              // userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
-              // userNickName={"xChenNing"}
-              width={item.width}
-              onCardClick={() => {
-                console.log("clicked", item.id);
-                NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
-              }}
-            />
-          </div>
-        );
-      },
-      width: w,
-      height: h
-    };
-
-    randomObjects.push(obj);
-  }
-
-  return randomObjects;
-};
 
 export default function Start() {
-  const [data, setData] = useState(_generateItems());
 
   return (
     <Container>
@@ -230,54 +188,34 @@ export default function Start() {
 
           <div className={"mt-3 mr-[calc(1rem+2px)]"}>
             <Card className={"w-full"}>
-              <CardBody>
+              <CardBody className={"flex flex-row gap-2"}>
                 <Button
+                  className={"flex-1"}
                   color={"warning"}
                   startContent={<Zap size={16} />}
                   variant={"shadow"}
                 >
                   立即生成
                 </Button>
+                <Select
+                  className={"basis-24"}
+                  defaultSelectedKeys={["1"]}
+                  startContent={
+                    <div className={"text-nowrap text-sm"}>数量:</div>
+                  }
+                >
+                  <SelectItem key={"1"}>1</SelectItem>
+                  <SelectItem key={"2"}>2</SelectItem>
+                  <SelectItem key={"4"}>4</SelectItem>
+                  <SelectItem key={"8"}>8</SelectItem>
+                </Select>
               </CardBody>
             </Card>
           </div>
         </div>
-        <div className={"flex-1 flex flex-row gap-2"}>
 
-          <div className={"flex-1"}>
-            <TiltCard
-              cardAspectRatio={"832/1216"}
-              cardMaxHeight={"calc(100dvh - 128px - 72px)"}
-              cardSlot={(
-                <Image
-                  isBlurred={true}
-                  src={"/test.png"}
-                  style={{
-                    aspectRatio: "832/1216"
-                  }}
-                />
-              )}
-            />
-          </div>
-
-          <Card className={"basis-52 relative"}>
-            <CardHeader>
-              任务记录
-            </CardHeader>
-            <CardBody className={"pt-0"}>
-              <ScrollShadow
-                className={"h-[calc(100dvh-128px-72px)]"}
-                id={"quick-start-task-history"}
-              >
-                <XCNWaterfall
-                  columns={1}
-                  data={data}
-                  debugMode={false}
-                  scrollContainer={"#quick-start-task-history"}
-                />
-              </ScrollShadow>
-            </CardBody>
-          </Card>
+        <div className={"flex-1"}>
+          <HistoryViewer />
         </div>
       </div>
     </Container>

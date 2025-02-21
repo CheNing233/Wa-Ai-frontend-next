@@ -78,7 +78,7 @@ export default function ModelCard(
                   <div className={"absolute top-1.5 w-[calc(100%-1rem)]"}>
                     <h2
                       aria-label={"123"}
-                      className={"font-semibold text-medium text-white w-full truncate text-start"}
+                      className={"font-semibold text-medium text-default-foreground w-full truncate text-start"}
                       title={"123"}
                     >
                       {"123 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}

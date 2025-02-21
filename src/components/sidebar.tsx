@@ -8,7 +8,6 @@ import { Drawer, DrawerContent } from "@heroui/drawer";
 
 import { sidebarSection } from "@/config/menus.tsx";
 import { useIsMobile } from "@/hooks/use-mobile.tsx";
-import BackTop from "@/components/back-top.tsx";
 
 /**
  * SidebarContext 上下文
@@ -174,13 +173,13 @@ export default function SidebarMenu(
     return (
       <aside
         className={`flex-none flex flex-row gap-3 ml-2 duration-200 ${
-          sidebar.open ? "translate-x-0 w-60" : "-translate-x-full w-0"
+          sidebar.open ? "translate-x-0 w-60" : "-translate-x-full w-1.5"
         }`}
       >
         <div className={"w-full h-full relative overflow-visible"}>
           {sidebarContent()}
           <Button
-            className={"absolute -right-7 top-1/2 -translate-y-1/2"}
+            className={"absolute -right-7 top-1/2 translate-x-px -translate-y-1/2 z-50"}
             isIconOnly={true}
             size={"sm"}
             variant={"light"}

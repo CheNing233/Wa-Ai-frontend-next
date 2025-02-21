@@ -95,7 +95,7 @@ export const sidebarMenuConfig: sidebarMenu = {
         {
           label: "快速开始",
           href: "/paint/quick-start",
-          description: "精简版A1111",
+          description: "新手推荐，立即创作",
           icon: <ListStartIcon className={iconClasses} />
         },
         {
@@ -106,7 +106,7 @@ export const sidebarMenuConfig: sidebarMenu = {
         },
         {
           label: "工作流",
-          href: "/paint/workflow",
+          href: "/paint/comfy",
           description: "ComfyUI工作台",
           icon: <NewspaperIcon className={iconClasses} />
         },

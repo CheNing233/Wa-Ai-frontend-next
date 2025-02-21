@@ -4,6 +4,7 @@ import SidebarMenu, { SidebarMain, SidebarProvider } from "@/components/sidebar.
 import { sidebarMenuConfig } from "@/config/menus.tsx";
 import lazyLoad from "@/utils/lazyload.tsx";
 import Start from "@/pages/paint/start.tsx";
+import Comfy from "@/pages/paint/comfy.tsx";
 
 const Home = lazyLoad(
   () => import("@/pages/paint/home.tsx")
@@ -54,6 +55,10 @@ export default function PaintPage() {
           <Route
             element={<Start />}
             path={"quick-start"}
+          />
+          <Route
+            element={<Comfy />}
+            path={"comfy"}
           />
         </Routes>
       </SidebarMain>
