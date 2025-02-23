@@ -3,7 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
 import { Button } from "@heroui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-import CheckboxSection from "@/components/ui/checkbox-section.tsx";
+import CheckboxSection from "@/components/common/checkbox-section.tsx";
 import { filterSection } from "@/config/filters.tsx";
 
 interface FilterDropdownProps {

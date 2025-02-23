@@ -8,8 +8,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
-import Container from "@/components/ui/container.tsx";
-import PromptButton from "@/components/ui/prompt-button.tsx";
+import Container from "@/components/common/container.tsx";
+import PromptButton from "@/components/common/prompt-button.tsx";
 
 
 function generateRandomPromptButtons(num: number) {

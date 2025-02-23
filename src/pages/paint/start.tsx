@@ -5,8 +5,8 @@ import { Input, Textarea } from "@heroui/input";
 import { Slider } from "@heroui/slider";
 import { Card, CardBody } from "@heroui/card";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-import ModelCard from "@/components/ui/model-card.tsx";
-import Container from "@/components/ui/container.tsx";
+import ModelCard from "@/components/common/model-card.tsx";
+import Container from "@/components/common/container.tsx";
 import HistoryViewer from "@/components/workbench/historyViewer.tsx";
 import { Select, SelectItem } from "@heroui/select";
 

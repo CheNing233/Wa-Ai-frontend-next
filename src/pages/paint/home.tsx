@@ -8,9 +8,9 @@ import { useState } from "react";
 import { Tooltip } from "@heroui/tooltip";
 
 import { title } from "@/components/utils/primitives.ts";
-import ImageCard from "@/components/ui/image-card.tsx";
-import Container from "@/components/ui/container.tsx";
-import FlexCol from "@/components/ui/flex-col.tsx";
+import ImageCard from "@/components/common/image-card.tsx";
+import Container from "@/components/common/container.tsx";
+import FlexCol from "@/components/common/flex-col.tsx";
 
 const Banner = () => (
   <div className={"w-full py-2"}>

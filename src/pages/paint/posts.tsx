@@ -5,10 +5,10 @@ import { WaterfallItems, XCNWaterfall } from "xcn-waterfall";
 import { useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 
-import Container from "@/components/ui/container.tsx";
-import ImageCard from "@/components/ui/image-card.tsx";
+import Container from "@/components/common/container.tsx";
+import ImageCard from "@/components/common/image-card.tsx";
 import { modalIdsRegister } from "@/config/modals.ts";
-import BackTop from "@/components/back-top.tsx";
+import BackTop from "@/components/common/back-top.tsx";
 
 const _generateItems = () => {
   const randomObjects: any[] = [];

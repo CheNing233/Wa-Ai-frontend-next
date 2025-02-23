@@ -4,7 +4,7 @@ import ChatPage from "@/pages/chat";
 import AboutPage from "@/pages/about";
 import PaintPage from "@/pages/paint";
 import { Header } from "@/components/header.tsx";
-import Background from "@/components/background.tsx";
+import Background from "@/components/common/background.tsx";
 
 function App() {
   return (

@@ -22,7 +22,7 @@ import { Button } from "@heroui/button";
 import NiceModal from "@ebay/nice-modal-react";
 
 import { headerMenuConfig } from "@/config/menus.tsx";
-import BannerButton from "@/components/ui/banner-button.tsx";
+import BannerButton from "@/components/common/banner-button.tsx";
 import { useTheme } from "@/hooks/use-theme.ts";
 import { modalIdsRegister } from "@/config/modals.ts";
 

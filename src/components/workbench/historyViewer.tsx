@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
-import ImageCard from "@/components/ui/image-card.tsx";
+import ImageCard from "@/components/common/image-card.tsx";
 import { modalIdsRegister } from "@/config/modals.ts";
 import { Card, CardBody } from "@heroui/card";
 import TiltCard from "@/components/tilt-card.tsx";

@@ -3,9 +3,9 @@ import { useState } from "react";
 
 import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
-import ImageCard from "@/components/ui/image-card.tsx";
-import Container from "@/components/ui/container.tsx";
-import { FilterDropdown } from "@/components/filter-dropdown.tsx";
+import ImageCard from "@/components/common/image-card.tsx";
+import Container from "@/components/common/container.tsx";
+import { FilterDropdown } from "@/components/common/filter-dropdown.tsx";
 import { modelsFilter } from "@/config/filters.tsx";
 
 const _generateItems = () => {
