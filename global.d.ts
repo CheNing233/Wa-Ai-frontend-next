@@ -1,0 +1,2 @@
+declare const __WA_FRONTEND_PACKAGE_NAME__: string
+declare const __WA_FRONTEND_PACKAGE_VERSION__: string

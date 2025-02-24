@@ -1,17 +1,18 @@
 import { Button } from "@heroui/button";
-import { CopyCheck, Download, Eye, EyeOff, Heart, Info, Send, Settings, Star, ZoomIn } from "lucide-react";
+import { CopyCheck, Download, Eye, EyeOff, Heart, Send, Settings, Star, ZoomIn } from "lucide-react";
 import { ScrollShadow } from "@heroui/scroll-shadow";
 import NiceModal from "@ebay/nice-modal-react";
 import { useState } from "react";
+import { Card, CardBody } from "@heroui/card";
+import { Image } from "@heroui/image";
+import { Tooltip } from "@heroui/tooltip";
 
 import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
 import ImageCard from "@/components/common/image-card.tsx";
 import { modalIdsRegister } from "@/config/modals.ts";
-import { Card, CardBody } from "@heroui/card";
 import TiltCard from "@/components/tilt-card.tsx";
-import { Image } from "@heroui/image";
-import { Tooltip } from "@heroui/tooltip";
+
 
 
 const _generateItems = () => {

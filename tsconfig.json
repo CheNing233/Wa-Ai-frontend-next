@@ -27,14 +27,16 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    /* Test types */
+    /* Types */
     "types": [
       "jest",
+      "@types/node",
       "@testing-library/jest-dom"
     ]
   },
   "include": [
-    "src"
+    "src",
+    "global.d.ts"
   ],
   "references": [
     {
