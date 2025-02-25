@@ -84,10 +84,8 @@ export interface LoginByGithubResult {
   [key: string]: unknown;
 }
 
-// 通用空结果接口
-export interface EmptyResult {
-  [key: string]: any;
-}
+// 通用任意结果接口
+export type AnyResult = any;
 
 /**
  * 响应类型定义
@@ -97,28 +95,28 @@ export interface EmptyResult {
 export type LoginResponse = BaseResponse<LoginResult>;
 
 // 登出接口响应
-export type LogoutResponse = BaseResponse<EmptyResult>;
+export type LogoutResponse = BaseResponse<AnyResult>;
 
 // 是否登录接口响应
-export type IsLoginResponse = BaseResponse<EmptyResult>;
+export type IsLoginResponse = BaseResponse<AnyResult>;
 
 // 获取用户信息接口响应
-export type InfoResponse = BaseResponse<EmptyResult>;
+export type InfoResponse = BaseResponse<AnyResult>;
 
 // 注册接口响应
-export type RegisterResponse = BaseResponse<EmptyResult>;
+export type RegisterResponse = BaseResponse<AnyResult>;
 
 // 重置密码接口响应
-export type ResetPasswordResponse = BaseResponse<EmptyResult>;
+export type ResetPasswordResponse = BaseResponse<AnyResult>;
 
 // 发送邮箱验证码接口响应
-export type SendEmailCodeResponse = BaseResponse<EmptyResult>;
+export type SendEmailCodeResponse = BaseResponse<AnyResult>;
 
 // 权限测试接口响应
-export type AuthTestResponse = BaseResponse<EmptyResult>;
+export type AuthTestResponse = BaseResponse<AnyResult>;
 
 // 获取用户信息接口响应
-export type GetUserInformationResponse = BaseResponse<EmptyResult>;
+export type GetUserInformationResponse = BaseResponse<AnyResult>;
 
 // 获取算力点接口响应
 export type GetCalculationPointResponse = BaseResponse<CalculationPointResult>;
@@ -127,10 +125,10 @@ export type GetCalculationPointResponse = BaseResponse<CalculationPointResult>;
 export type GetTaskCountByDateResponse = BaseResponse<TaskCountByDateResult>;
 
 // 修改用户信息接口响应
-export type PutUserInformationResponse = BaseResponse<EmptyResult>;
+export type PutUserInformationResponse = BaseResponse<AnyResult>;
 
 // 上传头像接口响应
-export type UpdateAvatarResponse = BaseResponse<EmptyResult>;
+export type UpdateAvatarResponse = BaseResponse<AnyResult>;
 
 // 获取Github客户端ID接口响应
 export type GetGithubClientIdResponse = BaseResponse<GithubClientIdResult>;
@@ -142,4 +140,4 @@ export type GetUserInfoByGithubCodeResponse = BaseResponse<UserInfoByGithubCodeR
 export type LoginByGithubResponse = BaseResponse<LoginByGithubResult>;
 
 // 绑定Github ID接口响应
-export type BindGithubIdResponse = BaseResponse<EmptyResult>;
+export type BindGithubIdResponse = BaseResponse<AnyResult>;

@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Info,
   LayoutDashboard,
+  LogIn,
   LogOut,
   MoonIcon,
   SearchIcon,
@@ -25,6 +26,8 @@ import { headerMenuConfig } from "@/config/menus.tsx";
 import BannerButton from "@/components/common/banner-button.tsx";
 import { useTheme } from "@/hooks/use-theme.ts";
 import { modalIdsRegister } from "@/config/modals.ts";
+import { useUserVM } from "@/controller/useUserVM.tsx";
+import { app } from "@/app/app.tsx";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -32,6 +35,11 @@ export const Header = () => {
 
   const { theme, toggleTheme } = useTheme();
 
+  const { user, userState } = useUserVM();
+
+  const handleLogOut = ()=>{
+    app.user.logout().finally();
+  }
 
   const searchInput = (
     <Input
@@ -133,7 +141,7 @@ export const Header = () => {
         flexShrink: 1,
         flexGrow: 0
       }}>
-        <Dropdown placement="bottom-end">
+        {userState === "loggedIn" && <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
               isBordered
@@ -162,7 +170,7 @@ export const Header = () => {
                   src="https://avatars.githubusercontent.com/u/32773451?v=4"
                 />
                 <div>
-                  <p className="font-semibold">xChenNing</p>
+                  <p className="font-semibold">{user?.nickName}</p>
                   <p className="font-semibold">进入个人中心 {">"}</p>
                 </div>
               </div>
@@ -213,15 +221,27 @@ export const Header = () => {
               <DropdownItem
                 key="logout" color="danger"
                 startContent={<LogOut />}
-                onPress={()=>{
-                  NiceModal.show(modalIdsRegister.userEnter).finally()
-                }}
+                onPress={handleLogOut}
               >
                 登出
               </DropdownItem>
             </DropdownSection>
           </DropdownMenu>
-        </Dropdown>
+        </Dropdown>}
+
+        {userState !== "loggedIn" && <Button
+          color={"primary"}
+          isIconOnly={userState === "pending"}
+          isLoading={userState === "pending"}
+          startContent={(userState !== "pending" && <LogIn size={16} />)}
+          variant={"shadow"}
+          onPress={() => {
+            NiceModal.show(modalIdsRegister.userEnter).finally();
+          }}
+        >
+          {userState !== "pending" && <span className={"font-bold text-sm"}>登录免费画图</span>}
+        </Button>}
+
       </NavbarContent>
 
       <NavbarMenu>

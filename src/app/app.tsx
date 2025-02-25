@@ -5,8 +5,10 @@ export class WaApp {
   user: WaUser;
   api: WaApi;
 
-  constructor() {
-    this.api = new WaApi(this);
+  constructor(
+    test_url?: string
+  ) {
+    this.api = new WaApi(this, test_url);
     this.user = new WaUser(this);
   }
 

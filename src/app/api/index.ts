@@ -1,5 +1,5 @@
 import { WaApp } from "@/app/app.tsx";
-import { IsLoginResponse, LoginParams } from "@/app/api/model/user.ts";
+import { InfoResponse, IsLoginResponse, LoginParams, LoginResponse, LogoutResponse } from "@/app/api/model/user.ts";
 import { apiRoutes } from "@/config/api-routes.ts";
 
 
@@ -13,12 +13,19 @@ export class WaApi extends EventTarget {
 
   app: WaApp;
   api_host: string;
+  api_entry: string;
+  api_ws_entry: string;
 
 
-  constructor(app: WaApp) {
+  constructor(
+    app: WaApp,
+    test_url?: string
+  ) {
     super();
     this.app = app;
-    this.api_host = location.protocol + "//" + location.host;
+    this.api_host = test_url || `${location.protocol}//${location.host}`;
+    this.api_entry = !test_url ? "/api" : "";
+    this.api_ws_entry = !test_url ? "/ws" : "";
   }
 
   addEventListener(
@@ -38,21 +45,22 @@ export class WaApi extends EventTarget {
   }
 
   getApiUrl() {
-    return `${this.api_host}/api`;
+    return `${this.api_host}${this.api_entry}`;
   }
 
   getWsUrl() {
-    return `${this.api_host}/ws`;
+    return `${this.api_host}${this.api_ws_entry}`;
   }
 
   async fetchApi(url: string, options?: RequestInit): Promise<Response | null> {
+    const target = this.getApiUrl() + url;
+
     try {
-      const target = this.getApiUrl() + url;
       const response = await fetch(target, options);
 
       // 处理非网络错误（HTTP状态码错误）
       if (!response.ok) {
-        console.warn(`WaApi HTTP Error: ${response.status} ${response.statusText}`);
+        console.warn(`WaApi HTTP Error: ${target} ${response.status} ${response.statusText}`);
         this.dispatchEvent(new CustomEvent(WaApiEventList.http_error, {
           detail: {
             status: response.status,
@@ -64,7 +72,7 @@ export class WaApi extends EventTarget {
       return response;
     } catch (e) {
       // 仅捕获网络错误（如DNS解析失败、跨域限制等）
-      console.warn("WaApi Network Error:", e);
+      console.warn(`WaApi Network Error: ${target}`, e);
       this.dispatchEvent(new CustomEvent(WaApiEventList.network_error, {
         detail: e
       }));
@@ -76,10 +84,13 @@ export class WaApi extends EventTarget {
   async login(p: LoginParams) {
     const r = await this.fetchApi(apiRoutes.account.login, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(p)
     });
 
-    console.log(r);
+    return await r?.json() as LoginResponse;
   }
 
   async isLogin() {
@@ -87,9 +98,23 @@ export class WaApi extends EventTarget {
       method: "GET"
     });
 
-    const data: IsLoginResponse = await r?.json() || null;
+    return await r?.json() as IsLoginResponse;
+  }
 
-    return data?.success || false;
+  async logout() {
+    const r = await this.fetchApi(apiRoutes.account.logout, {
+      method: "POST"
+    });
+
+    return await r?.json() as LogoutResponse;
+  }
+
+  async getMyUserInfo() {
+    const r = await this.fetchApi(apiRoutes.account.me, {
+      method: "GET"
+    });
+
+    return await r?.json() as InfoResponse;
   }
 }
 
