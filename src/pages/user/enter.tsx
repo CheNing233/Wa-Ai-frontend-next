@@ -24,7 +24,8 @@ const UserEnter = NiceModal.create(function _UserEnter() {
 
   return (
     <Modal
-      backdrop={"blur"}
+      // TODO wait toast fix
+      // backdrop={"blur"}
       isOpen={modal.visible}
       placement="center"
       onOpenChange={() => modal.hide()}

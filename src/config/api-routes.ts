@@ -5,5 +5,6 @@ export const apiRoutes = {
     register: "/account/register" as const,
     isLogin: "/account/isLogin" as const,
     me: "/account/me" as const,
+    sendEmailCode: "/account/sendRegisterMail" as const,
   }
 };

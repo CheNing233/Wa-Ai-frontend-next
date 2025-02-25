@@ -1,5 +1,15 @@
 import { WaApp } from "@/app/app.tsx";
-import { InfoResponse, IsLoginResponse, LoginParams, LoginResponse, LogoutResponse } from "@/app/api/model/user.ts";
+import {
+  InfoResponse,
+  IsLoginResponse,
+  LoginParams,
+  LoginResponse,
+  LogoutResponse,
+  RegisterParams,
+  RegisterResponse,
+  SendEmailCodeParams,
+  SendEmailCodeResponse
+} from "@/app/api/model/user.ts";
 import { apiRoutes } from "@/config/api-routes.ts";
 
 
@@ -115,6 +125,27 @@ export class WaApi extends EventTarget {
     });
 
     return await r?.json() as InfoResponse;
+  }
+
+  async register(p: RegisterParams) {
+    const r = await this.fetchApi(apiRoutes.account.register, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(p)
+    });
+
+    return await r?.json() as RegisterResponse;
+  }
+
+  async sendEmailCode(p: SendEmailCodeParams) {
+    const r = await this.fetchApi(
+      `${apiRoutes.account.sendEmailCode}?email=${p.email}&type=${p.type}`,
+      { method: "POST" }
+    );
+
+    return await r?.json() as SendEmailCodeResponse;
   }
 }
 

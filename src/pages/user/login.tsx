@@ -99,7 +99,7 @@ export default function UserLogin(
               classNames={{
                 label: "text-small"
               }}
-              defaultValue={"on"}
+              defaultSelected={true}
               name={"rememberMe"}
             >
               记住我
@@ -108,7 +108,7 @@ export default function UserLogin(
               忘记密码?
             </Link>
           </div>
-          <Button color="primary" type={"submit"} variant={"shadow"}>
+          <Button color="primary" isLoading={userState === "pending"} type={"submit"} variant={"shadow"}>
             登录
           </Button>
           <div className={"w-full my-6"}>

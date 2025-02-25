@@ -30,6 +30,11 @@ export interface RegisterParams {
   authorizationCode?: string;
 }
 
+export interface SendEmailCodeParams {
+  email: string;
+  type: "register" | "forgetPassword";
+}
+
 export interface ResetPasswordParams {
   email: string;
   emailCode: string;
