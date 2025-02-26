@@ -1,18 +1,41 @@
 import { Button } from "@heroui/button";
 import { CopyCheck, Download, Eye, EyeOff, Heart, Send, Settings, Star, ZoomIn } from "lucide-react";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-import NiceModal from "@ebay/nice-modal-react";
 import { useState } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Image } from "@heroui/image";
 import { Tooltip } from "@heroui/tooltip";
 
-import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
+import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 
 import ImageCard from "@/components/common/image-card.tsx";
-import { modalIdsRegister } from "@/config/modals.ts";
 import TiltCard from "@/components/tilt-card.tsx";
+import SelectionWrapper from "@/components/common/selection-wrapper.tsx";
 
+const TestCard = ({ id }: any) => {
+  const { item, updateItem } = useXCNWaterfallItem(id);
+
+  return (
+    <SelectionWrapper
+      isMultiSelect={true}
+      isSelected={item?.isSelected || false}
+    >
+      <ImageCard
+        height={item.height}
+        src={"/test.png"}
+        // title={item.id}
+        // userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
+        // userNickName={"xChenNing"}
+        width={item.width}
+        onCardClick={() => {
+          updateItem({
+            isSelected: !item?.isSelected || false
+          });
+        }}
+      />
+    </SelectionWrapper>
+  );
+};
 
 
 const _generateItems = () => {
@@ -28,18 +51,7 @@ const _generateItems = () => {
       content: ({ item }: { item: WaterfallItems }) => {
         return (
           <div className={"w-full h-full p-2"}>
-            <ImageCard
-              height={item.height}
-              src={"/test.png"}
-              // title={item.id}
-              // userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
-              // userNickName={"xChenNing"}
-              width={item.width}
-              onCardClick={() => {
-                console.log("clicked", item.id);
-                NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
-              }}
-            />
+            <TestCard id={id} />
           </div>
         );
       },
@@ -116,19 +128,26 @@ export default function HistoryViewer() {
             </Tooltip>
           </div>
 
-          <TiltCard
-            cardAspectRatio={"832/1216"}
-            cardMaxHeight={"calc(100dvh - 128px - 84px)"}
-            cardSlot={(
-              <Image
-                isBlurred={true}
-                src={"/test.png"}
-                style={{
-                  aspectRatio: "832/1216"
-                }}
-              />
-            )}
-          />
+          <SelectionWrapper
+            isMultiSelect={false}
+            isSelected={false}
+          >
+            <TiltCard
+              cardAspectRatio={"832/1216"}
+              cardMaxHeight={"calc(100dvh - 128px - 84px)"}
+              cardSlot={(
+
+                <Image
+                  isBlurred={true}
+                  src={"/test.png"}
+                  style={{
+                    aspectRatio: "832/1216"
+                  }}
+                />
+              )}
+            />
+          </SelectionWrapper>
+
         </div>}
 
         <div className={

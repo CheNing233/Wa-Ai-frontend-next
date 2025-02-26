@@ -1,5 +1,5 @@
 import { Image, ImageProps } from "@heroui/image";
-import { Card, CardFooter, CardProps } from "@heroui/card";
+import { Card, CardBody, CardFooter, CardProps } from "@heroui/card";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
 import { Avatar } from "@heroui/avatar";
 import { Chip } from "@heroui/chip";
@@ -64,22 +64,25 @@ export default function ImageCard(
   return (
     <Card
       isPressable={true}
+      // 取消aspect-ratio，交由父元素限制
       style={{
-        aspectRatio: `${width}/${height}`
+        width: "100%",
+        height: "100%"
       }}
       onPress={onCardClick}
       {...cardProps}
     >
       {/*image*/}
-      <Image
-        alt={title}
-        className={"z-0 w-full h-full object-cover"}
-        isZoomed={true}
-        removeWrapper={true}
-        src={src}
-        {...imageProps}
-      />
-
+      <CardBody className={"overflow-hidden p-0"}>
+        <Image
+          alt={title}
+          className={"z-0 left-0 top-0 w-full h-full object-cover"}
+          isZoomed={true}
+          removeWrapper={true}
+          src={src}
+          {...imageProps}
+        />
+      </CardBody>
 
       {/*footer*/}
       <CardFooter
