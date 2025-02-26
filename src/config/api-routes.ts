@@ -6,5 +6,6 @@ export const apiRoutes = {
     isLogin: "/account/isLogin" as const,
     me: "/account/me" as const,
     sendEmailCode: "/account/sendRegisterMail" as const,
+    resetPassword: "/account/forgetPassword" as const,
   }
 };

@@ -1,7 +1,8 @@
-import { WaApp } from "@/app/app.tsx";
-import { LoginParams, RegisterParams, SendEmailCodeParams } from "@/app/api/model/user.ts";
-import { useUserStore } from "@/stores/userStore.ts";
 import { addToast } from "@heroui/toast";
+
+import { WaApp } from "@/app/app.tsx";
+import { LoginParams, RegisterParams, ResetPasswordParams, SendEmailCodeParams } from "@/app/api/model/user.ts";
+import { useUserStore } from "@/stores/userStore.ts";
 
 
 export type UserType = {
@@ -28,7 +29,7 @@ export class WaUser {
 
     useUserStore.getState().setUserState("pending");
 
-    this.checkLoginState().then((isLogin) => {
+    this.checkLoginState().then(([, isLogin]) => {
       if (isLogin) {
         this.getMyUserInfo().finally();
       }
@@ -54,11 +55,14 @@ export class WaUser {
         color: "danger"
       });
     }
+
+    return r.success;
   }
 
   async logout() {
     useUserStore.getState().setUserState("pending");
-    await this.app.api.logout();
+    const r = await this.app.api.logout();
+
     await this.checkLoginState();
 
     addToast({
@@ -66,21 +70,35 @@ export class WaUser {
       description: "再会喵~",
       color: "success"
     });
+
+    return r.success;
   }
 
-  async checkLoginState() {
+  /**
+   * 异步检查用户的登录状态
+   * 此函数用于检查用户当前是否已登录，并根据登录状态更新用户信息
+   *
+   * @returns {Promise<[boolean, boolean]>} 返回一个包含两个布尔值的数组：
+   *          第一个表示API调用是否成功，第二个表示用户是否已登录
+   */
+  async checkLoginState(): Promise<[boolean, boolean]> {
+    // 调用app的API检查用户是否已登录
     const isLoginResult = await this.app.api.isLogin();
 
     if (isLoginResult.success) {
+      // 如果登录成功，设置用户状态为已登录，并获取用户信息
       useUserStore.getState().setUserState("loggedIn");
       this.getMyUserInfo().finally();
 
-      return true;
+      // 返回成功标志和登录状态（已登录）
+      return [isLoginResult.success, true];
     } else {
+      // 如果未登录，设置用户状态为未登录，并清除用户信息
       useUserStore.getState().setUserState("loggedOut");
       useUserStore.getState().clearUser();
 
-      return false;
+      // 返回成功标志和登录状态（未登录）
+      return [isLoginResult.success, false];
     }
   }
 
@@ -92,9 +110,12 @@ export class WaUser {
 
       useUserStore.getState().setUser(MyUserInfo);
     }
+
+    return getMyUserInfoResult.success;
   }
 
   async register(p: RegisterParams) {
+    useUserStore.getState().setUserState("pending");
     const r = await this.app.api.register(p);
 
     if (r.success) {
@@ -110,6 +131,9 @@ export class WaUser {
         color: "danger"
       });
     }
+    useUserStore.getState().setUserState("loggedOut");
+
+    return r.success;
   }
 
   async sendEmailCode(p: SendEmailCodeParams) {
@@ -128,6 +152,30 @@ export class WaUser {
         color: "danger"
       });
     }
+
+    return r.success;
+  }
+
+  async resetPassword(p: ResetPasswordParams) {
+    useUserStore.getState().setUserState("pending");
+    const r = await this.app.api.resetPassword(p);
+
+    if (r.success) {
+      addToast({
+        title: "重置成功",
+        description: "不要马上又忘掉密码喵",
+        color: "success"
+      });
+    } else {
+      addToast({
+        title: "重置失败",
+        description: r.errorMsg,
+        color: "danger"
+      });
+    }
+    useUserStore.getState().setUserState("loggedOut");
+
+    return r.success;
   }
 }
 

@@ -6,7 +6,7 @@ import {
   LoginResponse,
   LogoutResponse,
   RegisterParams,
-  RegisterResponse,
+  RegisterResponse, ResetPasswordParams, ResetPasswordResponse,
   SendEmailCodeParams,
   SendEmailCodeResponse
 } from "@/app/api/model/user.ts";
@@ -146,6 +146,18 @@ export class WaApi extends EventTarget {
     );
 
     return await r?.json() as SendEmailCodeResponse;
+  }
+
+  async resetPassword(p: ResetPasswordParams) {
+    const r = await this.fetchApi(apiRoutes.account.resetPassword, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(p)
+    });
+
+    return await r?.json() as ResetPasswordResponse;
   }
 }
 
