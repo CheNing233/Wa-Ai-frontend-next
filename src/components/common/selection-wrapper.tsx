@@ -26,7 +26,7 @@ const SelectionWrapper: React.FC<SelectionWrapperProps> = (
     borderStyle: "solid",
     borderRadius: "14px",
     pointerEvents: "none", // 防止边框拦截点击
-    opacity: 0.7,
+    opacity: 1,
     zIndex: 9999,
 
     background: isMultiSelect && isSelected ? "rgba(0, 0, 0, 0.3)" : ""

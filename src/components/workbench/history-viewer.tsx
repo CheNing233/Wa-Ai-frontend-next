@@ -17,7 +17,7 @@ const TestCard = ({ id }: any) => {
 
   return (
     <SelectionWrapper
-      isMultiSelect={true}
+      isMultiSelect={false}
       isSelected={item?.isSelected || false}
     >
       <ImageCard

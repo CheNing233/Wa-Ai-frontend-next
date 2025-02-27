@@ -1,15 +1,15 @@
 import { Button } from "@heroui/button";
-import { ArrowLeftRight, PlusIcon, Settings, Smartphone, TvMinimal, X, Zap } from "lucide-react";
+import { Settings, Smartphone, TvMinimal, X, Zap } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Input, Textarea } from "@heroui/input";
 import { Slider } from "@heroui/slider";
 import { Card, CardBody } from "@heroui/card";
 import { ScrollShadow } from "@heroui/scroll-shadow";
 import { Select, SelectItem } from "@heroui/select";
-
-import ModelCard from "@/components/common/model-card.tsx";
 import Container from "@/components/common/container.tsx";
-import HistoryViewer from "@/components/workbench/historyViewer.tsx";
+import HistoryViewer from "@/components/workbench/history-viewer.tsx";
+import { ModelInputGroup } from "@/components/workbench/widgets/model-input-group.tsx";
+import { PromptInputGroup } from "@/components/workbench/widgets/prompt-input-group.tsx";
 
 function Tittle(
   {
@@ -89,7 +89,7 @@ function Selector() {
 }
 
 
-export default function Start() {
+export default function QuickStart() {
 
   return (
     <Container>
@@ -101,41 +101,9 @@ export default function Start() {
             "pr-3 pb-10 overflow-y-scroll h-[calc(100dvh-128px-78px)] " +
             "flex flex-col gap-8 "
           }>
-            <div className={"flex flex-col gap-3"}>
-              <Tittle
-                subTitle={"选择一个或多个模型，模型决定生成图像的风格"}
-                title={"模型选择"}
-              />
+            <ModelInputGroup />
 
-              <ModelCard
-                as={"card"}
-                rightSlot={
-                  <div className={"text-xs opacity-75"}>
-                    <ArrowLeftRight className={"inline"} size={16} />&nbsp;更换底模
-                  </div>
-                }
-              />
-
-              <Button
-                className={"border-dotted"}
-                startContent={<PlusIcon size={20} />}
-                variant={"bordered"}
-              >
-                添加风格模型
-              </Button>
-            </div>
-
-            <div className={"flex flex-col gap-3"}>
-              <Tittle
-                subTitle={"提示词，用于引导模型生成符合要求的图片"}
-                title={"图片创意描述"}
-              />
-
-              <Textarea
-                minRows={6}
-                placeholder={"请使用多个「英文单词」来描述你想要生成的内容，并使用「英文逗号」隔开"}
-              />
-            </div>
+            <PromptInputGroup />
 
             <div className={"flex flex-col gap-3"}>
               <Tittle

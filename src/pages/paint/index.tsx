@@ -3,8 +3,6 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import SidebarMenu, { SidebarMain, SidebarProvider } from "@/components/sidebar.tsx";
 import { sidebarMenuConfig } from "@/config/menus.tsx";
 import lazyLoad from "@/utils/lazyload.tsx";
-import Start from "@/pages/paint/start.tsx";
-import Comfy from "@/pages/paint/comfy.tsx";
 
 const Home = lazyLoad(
   () => import("@/pages/paint/home.tsx")
@@ -20,6 +18,18 @@ const Models = lazyLoad(
 
 const Prompts = lazyLoad(
   () => import("@/pages/paint/prompts.tsx")
+);
+
+const QuickStart = lazyLoad(
+  () => import("@/pages/paint/quick-start.tsx")
+);
+
+const A1111 = lazyLoad(
+  () => import("@/pages/paint/a1111.tsx")
+);
+
+const Comfy = lazyLoad(
+  () => import("@/pages/paint/comfy.tsx")
 );
 
 export default function PaintPage() {
@@ -53,8 +63,12 @@ export default function PaintPage() {
             path={"prompts"}
           />
           <Route
-            element={<Start />}
+            element={<QuickStart />}
             path={"quick-start"}
+          />
+          <Route
+            element={<A1111 />}
+            path={"standard"}
           />
           <Route
             element={<Comfy />}
