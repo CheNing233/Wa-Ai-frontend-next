@@ -1,9 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Slider } from "@heroui/slider";
-import { debounce } from "@/utils/flow-control.ts";
 import { ChevronsLeftRightEllipsis } from "lucide-react";
 import { Chip } from "@heroui/chip";
 import { Listbox, ListboxItem } from "@heroui/listbox";
+
+import { debounce } from "@/utils/flow-control.ts";
 
 type AutocompleteHelperProps = {
   children?: React.ReactNode;
@@ -27,6 +28,7 @@ type AutocompleteHelperProps = {
 
   // 统一的值控制
   value: number;
+  syncValue?: number;
   onValueChange: (value: number) => void;
 };
 
@@ -60,6 +62,11 @@ const AutocompleteHelper = (
   const updateRealValue = debounce((value: number) => {
     props.onValueChange?.(value);
   }, 100);
+
+  useEffect(() => {
+    if (props.value === tempValue || !props.syncValue) return;
+    setTempValue(props.syncValue);
+  }, [props.syncValue]);
 
   // 统一值处理
   const handleChange = useCallback((newValue: number) => {

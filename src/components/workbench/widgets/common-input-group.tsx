@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";
 import { Card, CardBody } from "@heroui/card";
 import { useParamFormsVM } from "@/controller/useParamFormsVM.tsx";
-import InputWithPopover from "@/components/workbench/common/autocomplete-popover.tsx";
+import AutocompletePopover from "@/components/workbench/common/autocomplete-popover.tsx";
 
 interface CommonInputGroupProps {
   config: ParamGroupConfig;
@@ -96,7 +96,7 @@ const CommonNumberInput: FC<CommonInputProps> = (
           {/*</LegacyPopover>*/}
 
 
-          <InputWithPopover config={config}/>
+          <AutocompletePopover config={config}/>
         </div>
       </div>
     </div>

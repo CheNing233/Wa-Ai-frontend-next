@@ -6,20 +6,16 @@ import { Input } from "@heroui/input";
 import { useParamFormsVM } from "@/controller/useParamFormsVM.tsx";
 import AutocompleteHelper from "@/components/workbench/common/autocomplete-helper.tsx";
 
-type PopoverStyle = {
-  top: number;
-  left: number;
-  position: "absolute";
-  zIndex: number;
-}
-
-const InputWithPopover: FC<any> = ({ config }: any) => {
+const AutocompletePopover: FC<any> = ({ config }: any) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
 
   const outerInputRef = useRef<HTMLInputElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const { getCurrentFormItem, updateCurrentFormItem } = useParamFormsVM();
+
+  const [innerValue, setInnerValue] = useState(getCurrentFormItem(config.target));
+
 
   // 点击外部关闭逻辑
   useEffect(() => {
@@ -42,7 +38,7 @@ const InputWithPopover: FC<any> = ({ config }: any) => {
   }, []);
 
   const getPopoverStyle = (): any => {
-    if (!outerInputRef.current) return {} as PopoverStyle;
+    if (!outerInputRef.current) return {};
 
     const POPOVER_HEIGHT = 256; // 预设弹窗高度
     const MARGIN = 12; // 安全边距
@@ -64,11 +60,9 @@ const InputWithPopover: FC<any> = ({ config }: any) => {
     };
   };
 
-
   const handlePopoverMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
-
 
   return (
     <div className={"relative"}>
@@ -77,9 +71,10 @@ const InputWithPopover: FC<any> = ({ config }: any) => {
         readOnly={false}
         size={"sm"}
         value={getCurrentFormItem(config.target)}
-        onClick={() => setIsPopoverOpen(true)}
+        onFocus={() => setIsPopoverOpen(true)}
         onValueChange={(value: any) => {
           updateCurrentFormItem(config.target, value);
+          setInnerValue(value);
         }}
       />
 
@@ -106,6 +101,7 @@ const InputWithPopover: FC<any> = ({ config }: any) => {
               recommendations={[20, 50, 80]}
               step={5}
 
+              syncValue={innerValue}
               value={getCurrentFormItem(config.target)}
               onValueChange={(value: any) => {
                 updateCurrentFormItem(config.target, value);
@@ -119,4 +115,4 @@ const InputWithPopover: FC<any> = ({ config }: any) => {
   );
 };
 
-export default InputWithPopover;
+export default AutocompletePopover;
