@@ -6,14 +6,16 @@ import ImageCard from "@/components/common/image-card.tsx";
 import { FC } from "react";
 import { BaseDataCls } from "@/app/api/dataclass/base.ts";
 
+// 会在 WaterfallTool 中注入参数
 export interface TaskCardProps {
+  // itemData 保存渲染配置和State
   itemData: WaterfallItems;
+  // itemCls 原始数据类，提供原始数据方法
   itemCls: TaskDataCls;
 }
 
 
 const TaskCard: FC<TaskCardProps> = (
-  // 会在 WaterfallTool 中注入参数
   { itemCls, itemData }
 ) => {
   const { item, updateItem } = useXCNWaterfallItem(itemData.id);

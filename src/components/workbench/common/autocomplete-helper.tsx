@@ -185,7 +185,9 @@ const AutocompleteHelper = (
 
                     if (!isNaN(value)) handleChange(value);
                   } else {
-                    handleStringChange(String(Array.from(keys)[0]));
+                    const value = Array.from(keys)[0];
+
+                    if (value) handleStringChange(String(value));
                   }
                 }}
               >
@@ -213,7 +215,9 @@ const AutocompleteHelper = (
 
                     if (!isNaN(value)) handleChange(value);
                   } else {
-                    handleStringChange(String(Array.from(keys)[0]));
+                    const value = Array.from(keys)[0];
+
+                    if (value) handleStringChange(String(value));
                   }
                 }}
               >
