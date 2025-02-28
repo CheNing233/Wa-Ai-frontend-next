@@ -1,21 +1,25 @@
-import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
+import React, { FC, MouseEvent, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { Card, CardBody } from "@heroui/card";
 import ReactDOM from "react-dom";
-import { Input } from "@heroui/input";
 
-import { useParamFormsVM } from "@/controller/useParamFormsVM.tsx";
-import AutocompleteHelper from "@/components/workbench/common/autocomplete-helper.tsx";
+interface AutocompletePopoverProps {
+  content: ReactNode;
+  children: (
+    ref: RefObject<any>,
+    setOpen: (open: boolean) => void
+  ) => ReactNode;
+}
 
-const AutocompletePopover: FC<any> = ({ config }: any) => {
+const NativePopover: FC<AutocompletePopoverProps> = (
+  {
+    children,
+    content
+  }
+) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
 
   const outerInputRef = useRef<HTMLInputElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
-
-  const { getCurrentFormItem, updateCurrentFormItem } = useParamFormsVM();
-
-  const [innerValue, setInnerValue] = useState(getCurrentFormItem(config.target));
-
 
   // 点击外部关闭逻辑
   useEffect(() => {
@@ -40,7 +44,7 @@ const AutocompletePopover: FC<any> = ({ config }: any) => {
   const getPopoverStyle = (): any => {
     if (!outerInputRef.current) return {};
 
-    const POPOVER_HEIGHT = 256; // 预设弹窗高度
+    const POPOVER_HEIGHT = popoverRef.current?.clientHeight || 256; // 预设弹窗高度
     const MARGIN = 12; // 安全边距
     const rect = outerInputRef.current.getBoundingClientRect();
 
@@ -64,19 +68,10 @@ const AutocompletePopover: FC<any> = ({ config }: any) => {
     e.stopPropagation();
   };
 
+
   return (
     <div className={"relative"}>
-      <Input
-        ref={outerInputRef}
-        readOnly={false}
-        size={"sm"}
-        value={getCurrentFormItem(config.target)}
-        onFocus={() => setIsPopoverOpen(true)}
-        onValueChange={(value: any) => {
-          updateCurrentFormItem(config.target, value);
-          setInnerValue(value);
-        }}
-      />
+      {children(outerInputRef, setIsPopoverOpen)}
 
       {isPopoverOpen && ReactDOM.createPortal(
         <Card
@@ -88,25 +83,7 @@ const AutocompletePopover: FC<any> = ({ config }: any) => {
           onMouseDown={handlePopoverMouseDown}
         >
           <CardBody>
-            <AutocompleteHelper
-              showDrag
-              showOptions
-              showRecommendations
-              showSlider
-
-              max={100}
-              min={0}
-
-              options={[10, 30, 70, 100]}
-              recommendations={[20, 50, 80]}
-              step={5}
-
-              syncValue={innerValue}
-              value={getCurrentFormItem(config.target)}
-              onValueChange={(value: any) => {
-                updateCurrentFormItem(config.target, value);
-              }}
-            />
+            {content}
           </CardBody>
         </Card>,
         document.getElementById("root")!
@@ -115,4 +92,4 @@ const AutocompletePopover: FC<any> = ({ config }: any) => {
   );
 };
 
-export default AutocompletePopover;
+export default NativePopover;

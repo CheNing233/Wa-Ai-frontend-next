@@ -5,13 +5,11 @@ import { Chip } from "@heroui/chip";
 import { Listbox, ListboxItem } from "@heroui/listbox";
 
 import { debounce } from "@/utils/flow-control.ts";
+import { Card, CardBody } from "@heroui/card";
 
 type AutocompleteHelperProps = {
-  children?: React.ReactNode;
-  placement?: "top" | "bottom" | "left" | "right";
-
   // 显示控制
-  show?: boolean;
+  type: "number" | "string";
   showSlider?: boolean;
   showDrag?: boolean;
   showRecommendations?: boolean;
@@ -23,31 +21,28 @@ type AutocompleteHelperProps = {
   step?: number;
 
   // 列表数据
-  recommendations?: number[];
-  options?: number[];
+  recommendations?: Array<number | string>;
+  options?: Array<number | string>;
 
   // 统一的值控制
-  value: number;
-  syncValue?: number;
-  onValueChange: (value: number) => void;
+  value: number | string;
+  syncValue?: number | string;
+  onValueChange: (value: number | string) => void;
 };
 
 const Title = (
-  { title, value }: { title: string, value: number }
+  { title }: { title: string }
 ) => {
   return (
     <div className="flex flex-row gap-2">
       <span className="flex-1 text-xs font-bold block">{title}</span>
-      <span className="flex-none text-xs font-bold block truncate max-w-[50%]">当前: {value}</span>
     </div>
   );
 };
 
 const AutocompleteHelper = (
   {
-    children = null,
-    placement = "top",
-    show = undefined,
+    type,
     showSlider = true,
     showDrag = true,
     showRecommendations = true,
@@ -57,9 +52,9 @@ const AutocompleteHelper = (
     ...props
   }: AutocompleteHelperProps
 ) => {
-  const [tempValue, setTempValue] = useState(props.value);
+  const [tempValue, setTempValue] = useState<number | string>(props.value);
 
-  const updateRealValue = debounce((value: number) => {
+  const updateRealValue = debounce((value: number | string) => {
     props.onValueChange?.(value);
   }, 100);
 
@@ -79,15 +74,41 @@ const AutocompleteHelper = (
     updateRealValue(clampedValue);
   }, [props]);
 
+  const handleStringChange = useCallback((value: string) => {
+    setTempValue(value);
+    updateRealValue(value);
+  }, [updateRealValue]);
+
   const handleDrag = useCallback((e: any) => {
     const startX = e.clientX;
-    const startValue = tempValue;
+    const startValue = Number(props.value || tempValue);
+
+    // 辅助函数：计算步进精度
+    const getPrecision = (step: number) => {
+      const stepString = step.toString();
+      const decimalIndex = stepString.indexOf(".");
+
+      return decimalIndex === -1 ? 0 : stepString.length - decimalIndex - 1;
+    };
 
     const handleMouseMove = (event: MouseEvent) => {
       const diff = event.clientX - startX;
-      const newValue = Math.round((startValue + (diff / 2000)) * 100) / 100;
 
-      handleChange(newValue);
+      if (diff === 0) return;
+
+      // 获取步进精度
+      const step = props.step || 1; // 默认步进 1
+      const precision = getPrecision(step);
+
+      // 速率（20px 对应 1 个步进单位）
+      const stepValue = Math.round(diff / 20) * step;
+      const newValue = Number(
+        (startValue + stepValue).toFixed(precision)
+      );
+
+      if (!isNaN(newValue)) {
+        handleChange(newValue);
+      }
     };
 
     const handleMouseUp = () => {
@@ -99,108 +120,112 @@ const AutocompleteHelper = (
     document.addEventListener("mouseup", handleMouseUp);
   }, [props, handleChange]);
 
-  // const Content = () => {
-  //   return (
-  //
-  //   );
-  // };
-
-  // if (children) {
-  //   return (
-  //     // eslint-disable-next-line jsx-a11y/no-autofocus
-  //     <Popover autoFocus={false} isOpen={show} placement={placement} tabIndex={-1}>
-  //       <PopoverTrigger>{children}</PopoverTrigger>
-  //
-  //       <PopoverContent className="max-h-64 w-64">
-  //         <Content />
-  //       </PopoverContent>
-  //     </Popover>
-  //   );
-  // } else {
-  //   return <Content />;
-  // }
 
   return (
-    <div className={"w-full h-full overflow-y-scroll overflow-x-hidden"}>
-      <div className="flex flex-col gap-3 p-2 w-full h-full">
+    <div className={"w-full h-full flex flex-col gap-2"}>
+      <Card>
+        <CardBody className={"pt-1.5 px-2 overflow-visible"}>
+          <span className={"text-xs font-bold truncate"}>
+            <span className={"opacity-30 select-none"}>当前:</span> {tempValue}
+          </span>
+        </CardBody>
+      </Card>
+      <div className={"w-full h-full relative overflow-y-scroll overflow-x-hidden"}>
 
-        {/* 滑块部分 */}
-        {showSlider && (
-          <div className={"flex flex-col gap-2"}>
-            <Title title={"调节"} value={tempValue} />
-            <Slider
-              maxValue={props.max}
-              minValue={props.min}
-              size={"sm"}
-              step={props.step}
-              value={tempValue}
-              onChange={handleChange as any}
-            />
-          </div>
-        )}
+        <div className="flex flex-col gap-3 p-2 w-full h-full">
 
-        {/* 拖拽微调 */}
-        {showDrag && (
-          <div className={"flex flex-col gap-2 w-full cursor-ew-resize"}>
-            <Title title={"拖拽微调"} value={tempValue} />
-            <Chip
-              className="max-w-full select-none"
-              onMouseDown={handleDrag}
-            >
-              <div className={"w-full flex justify-center items-center"}>
-                <ChevronsLeftRightEllipsis size={24} />
+          {/*数字调控部分*/}
+          {(showSlider && type === "number") && (
+            <div className={"flex-1 flex flex-col gap-2 w-full"}>
+              <Title title={"调节"} />
+
+              <div className={"flex flex-row flex-nowrap gap-2 w-full items-center"}>
+                {/* 滑块部分 */}
+                <div className={"flex-1"}>
+                  <Slider
+                    maxValue={props.max}
+                    minValue={props.min}
+                    size={"sm"}
+                    step={props.step}
+                    value={tempValue as number}
+                    onChange={handleChange as any}
+                  />
+                </div>
+
+                {/* 拖拽微调 */}
+                {showDrag && (
+                  <div className={"shrink flex flex-col gap-2 cursor-ew-resize"}>
+                    <Chip
+                      className="select-none"
+                      size={"sm"}
+                      onMouseDown={handleDrag}
+                    >
+                      <div className={"w-full flex justify-center items-center"}>
+                        <ChevronsLeftRightEllipsis size={24} />
+                      </div>
+                    </Chip>
+                  </div>
+                )}
               </div>
-            </Chip>
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* 推荐值列表 */}
-        {showRecommendations && recommendations.length > 0 && (
-          <div className={"flex flex-col gap-2"}>
-            <Title title={"推荐值"} value={tempValue} />
-            <Listbox
-              aria-label="推荐值"
-              classNames={{ base: "p-0" }}
-              selectedKeys={props.value ? [String(props.value)] : []}
-              selectionMode="single"
-              onSelectionChange={(keys) => {
-                const value = Number(Array.from(keys)[0]);
+          {/* 推荐值列表 */}
+          {showRecommendations && recommendations.length > 0 && (
+            <div className={"flex flex-col gap-2"}>
+              <Title title={"推荐值"} />
+              <Listbox
+                aria-label="推荐值"
+                classNames={{ base: "p-0" }}
+                selectedKeys={[String(props.value)]}
+                selectionMode="single"
+                onSelectionChange={(keys) => {
+                  if (type === "number") {
+                    const value = Number(Array.from(keys)[0]);
 
-                if (!isNaN(value)) handleChange(value);
-              }}
-            >
-              {recommendations.map((value) => (
-                <ListboxItem key={String(value)}>
-                  {value}
-                </ListboxItem>
-              ))}
-            </Listbox>
-          </div>
-        )}
+                    if (!isNaN(value)) handleChange(value);
+                  } else {
+                    handleStringChange(String(Array.from(keys)[0]));
+                  }
+                }}
+              >
+                {recommendations.map((value) => (
+                  <ListboxItem key={String(value)}>
+                    {value}
+                  </ListboxItem>
+                ))}
+              </Listbox>
+            </div>
+          )}
 
-        {/* 可选值列表 */}
-        {showOptions && options.length > 0 && (
-          <div className={"flex flex-col gap-2"}>
-            <Title title={"可选值"} value={tempValue} />
-            <Listbox
-              aria-label="可选值"
-              classNames={{ base: "p-0" }}
-              selectedKeys={props.value ? [String(props.value)] : []}
-              selectionMode="single"
-              onSelectionChange={(keys) => {
-                const value = Number(Array.from(keys)[0]);
+          {/* 可选值列表 */}
+          {showOptions && options.length > 0 && (
+            <div className={"flex flex-col gap-2"}>
+              <Title title={"可选值"} />
+              <Listbox
+                aria-label="可选值"
+                classNames={{ base: "p-0" }}
+                selectedKeys={[String(props.value)]}
+                selectionMode="single"
+                onSelectionChange={(keys) => {
+                  if (type === "number") {
+                    const value = Number(Array.from(keys)[0]);
 
-                if (!isNaN(value)) handleChange(value);
-              }}
-            >
-              {options.map((value) => (
-                <ListboxItem key={String(value)}>
-                  {value}
-                </ListboxItem>
-              ))}
-            </Listbox>
-          </div>
-        )}
+                    if (!isNaN(value)) handleChange(value);
+                  } else {
+                    handleStringChange(String(Array.from(keys)[0]));
+                  }
+                }}
+              >
+                {options.map((value) => (
+                  <ListboxItem key={String(value)}>
+                    {value}
+                  </ListboxItem>
+                ))}
+              </Listbox>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

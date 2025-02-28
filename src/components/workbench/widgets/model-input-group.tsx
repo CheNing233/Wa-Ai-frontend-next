@@ -7,7 +7,7 @@ import { ParamGroupConfig } from "@/app/param-form.ts";
 import { FC } from "react";
 
 interface ModelInputGroupProps {
-  config: ParamGroupConfig;
+  config?: ParamGroupConfig;
 }
 
 export const ModelInputGroup: FC<ModelInputGroupProps> = (

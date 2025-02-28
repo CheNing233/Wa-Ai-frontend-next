@@ -7,8 +7,9 @@ import { generateId } from "@/utils/tools.ts";
 export type ParamFieldConfig = {
   // 字段名
   name: string
+  description?: string
   // 类型
-  type: "number" | "select" | "radio" | "not-set"
+  type: "number" | "boolean" | "select" | "radio" | "not-set"
   // 使用点号路径表示法，如 "width" 或 "a.b"
   target: string
   // 选项列表，适用于 select 和 radio
@@ -19,6 +20,10 @@ export type ParamFieldConfig = {
   max?: number
   // 步长，适用于 number
   step?: number
+  // 可选值
+  options?: Array<number | string>
+  // 推荐值
+  recommendations?: Array<number | string>
   // 验证函数，返回错误信息或 null
   validate?: (value: any) => string | null,
   // 转换函数，返回转换后的值，用于转换为目标类型
