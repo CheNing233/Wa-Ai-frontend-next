@@ -1,12 +1,65 @@
 import { ScrollShadow } from "@heroui/scroll-shadow";
 import { Card, CardBody } from "@heroui/card";
 import { Button } from "@heroui/button";
-import { Download, RefreshCcw, Zap } from "lucide-react";
+import { ChevronDown, Download, RefreshCcw, Zap } from "lucide-react";
 import { Select, SelectItem } from "@heroui/select";
 import HistoryViewer from "@/components/workbench/history-viewer.tsx";
 import { Chip } from "@heroui/chip";
 import { ParamFormRenderer } from "@/components/workbench/param-form-renderer.tsx";
 import { app } from "@/app/app.tsx";
+import { useParamFormsVM } from "@/controller/useParamFormsVM.tsx";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@heroui/dropdown";
+import { Kbd } from "@heroui/kbd";
+
+const FormDropdown = () => {
+  const { forms, currentId, setCurrentId } = useParamFormsVM();
+
+  return (
+    <Dropdown>
+      <DropdownTrigger>
+        <Button
+          className={"text-xs font-bold pl-1"}
+          endContent={<ChevronDown size={14} />}
+          radius={"md"}
+          size={"sm"}
+          variant={"bordered"}
+        >
+          <Kbd className={"text-xs font-bold"}>实时保存</Kbd>
+          {forms.find(f => f.id === currentId)?.alias || "未选择工作台"}
+        </Button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Static Actions">
+        <DropdownSection title={"操作"}>
+          <DropdownItem key="new">新建工作台</DropdownItem>
+          <DropdownItem key="edit">管理工作台</DropdownItem>
+        </DropdownSection>
+        <DropdownSection title={"本地已保存"}>
+          {
+            forms.map(f => (
+              <DropdownItem
+                key={f.id}
+                onPress={() => setCurrentId(f.id)}
+              >
+                <div className={"flex flex-row items-center gap-2"}>
+                  <div className={"flex flex-col gap-1"}>
+                    <span className={"flex flex-row gap-2 items-center font-semibold"}>
+                      {f.alias}
+                      <Kbd className={"text-xs"}>
+                        {f.type.toUpperCase()}
+                      </Kbd>
+                    </span>
+                    <span className={"text-xs opacity-50"}>{f.createdAt}</span>
+                  </div>
+                </div>
+              </DropdownItem>
+            ))
+          }
+        </DropdownSection>
+      </DropdownMenu>
+    </Dropdown>
+  );
+};
+
 
 export default function A1111() {
   const formsConfig = app.paramForm.loadConfig("ti2i");
@@ -23,10 +76,14 @@ export default function A1111() {
         <Chip
           color={"success"}
           radius={"md"}
+          size={"lg"}
           variant={"dot"}
         >
           <span className={"font-bold text-xs"}>WA - SDWebUI</span>
         </Chip>
+
+        <FormDropdown />
+
         <div className={"flex-1"} />
 
         <Button

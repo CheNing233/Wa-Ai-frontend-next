@@ -1,7 +1,7 @@
 import { WaApp } from "@/app/app.tsx";
 import { txt2img_form_config } from "@/config/param-form-configs.ts";
 import { ParamFormType, useTI2I_ParamFormsStore } from "@/stores/paramFormStore.ts";
-import { generateId } from "@/utils/tools.ts";
+import { generateId, getChineseDateTime } from "@/utils/tools.ts";
 
 
 export type ParamFieldConfig = {
@@ -12,7 +12,7 @@ export type ParamFieldConfig = {
   type: "number" | "boolean" | "select" | "radio" | "not-set"
   // 使用点号路径表示法，如 "width" 或 "a.b"
   target: string
-  // 选项列表，适用于 select 和 radio
+  // 选项列表，适用于 radio
   listOptions?: Array<{ label: string; value: any }>
   // 最小值，适用于 number
   min?: number
@@ -70,13 +70,14 @@ export class WaParamForm {
 
   createForm(
     formType: "txt2img" | "img2img" | "extra",
-    alias: string = new Date().getTime().toString()
+    alias: string = "文生图-无标题"
   ) {
     const newForm: ParamFormType = {
       id: generateId("param-form"),
       alias: alias,
       type: formType,
-      createdAt: new Date(),
+      createdAt: getChineseDateTime(new Date()),
+      modifiedAt: getChineseDateTime(new Date()),
       formContent: {
         prompt: "",
         steps: 28,

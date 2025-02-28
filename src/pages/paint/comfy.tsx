@@ -19,6 +19,7 @@ export default function Comfy() {
         <Chip
           color={"success"}
           radius={"md"}
+          size={"lg"}
           variant={"dot"}
         >
           <span className={"font-bold text-xs"}>WA - ComfyUI</span>

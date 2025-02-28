@@ -6,69 +6,38 @@ import { Card, CardBody } from "@heroui/card";
 import { Image } from "@heroui/image";
 import { Tooltip } from "@heroui/tooltip";
 
-import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
-
-import ImageCard from "@/components/common/image-card.tsx";
+import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 import TiltCard from "@/components/tilt-card.tsx";
 import SelectionWrapper from "@/components/common/selection-wrapper.tsx";
+import { app } from "@/app/app.tsx";
+import { TaskDataCls } from "@/app/api/dataclass/task.tsx";
+import { WaterfallTool } from "@/app/tools/waterfall.tsx";
 
-const TestCard = ({ id }: any) => {
-  const { item, updateItem } = useXCNWaterfallItem(id);
-
-  return (
-    <SelectionWrapper
-      isMultiSelect={false}
-      isSelected={item?.isSelected || false}
-    >
-      <ImageCard
-        height={item.height}
-        src={"/test.png"}
-        // title={item.id}
-        // userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
-        // userNickName={"xChenNing"}
-        width={item.width}
-        onCardClick={() => {
-          updateItem({
-            isSelected: !item?.isSelected || false
-          });
-        }}
-      />
-    </SelectionWrapper>
-  );
-};
-
-
-const _generateItems = () => {
-  const randomObjects: any[] = [];
-
-  for (let i = 0; i < 50; i++) {
-    const w = Math.floor(Math.random() * (1024 - 512 + 1)) + 512;  // 随机宽度在512到1024之间
-    const h = Math.floor(Math.random() * (1024 - 512 + 1)) + 512;
-    const id = "id-" + Math.random().toString(36).substr(2, 9) + new Date().getTime();
-
-    const obj = {
-      id: id,
-      content: ({ item }: { item: WaterfallItems }) => {
-        return (
-          <div className={"w-full h-full p-2"}>
-            <TestCard id={id} />
-          </div>
-        );
-      },
-      width: w,
-      height: h
-    };
-
-    randomObjects.push(obj);
-  }
-
-  return randomObjects;
-};
 
 export default function HistoryViewer() {
-  const [data, setData] = useState(_generateItems());
+  const [data, setData] = useState();
 
   const [showViewer, setShowViewer] = useState(true);
+
+  const handleRequestBottomMore: (reqCount: number) => Promise<WaterfallItems[]> =
+    async (reqCount) => {
+      const taskDataClsList: TaskDataCls[] = await app.task.getTaskByUser({
+        page: reqCount,
+        pageSize: 12
+      });
+
+      const promiseList: Promise<WaterfallItems>[] = [];
+
+      if (taskDataClsList.length > 0) {
+        for (const taskCls of taskDataClsList) {
+          promiseList.push(WaterfallTool.buildWaterfallItem(taskCls));
+        }
+      }
+
+      const newWaterfallItems: WaterfallItems[] = await Promise.all(promiseList);
+
+      return newWaterfallItems;
+    };
 
   return (
     <Card className={"w-full"}>
@@ -180,7 +149,7 @@ export default function HistoryViewer() {
 
           <ScrollShadow
             className={"flex-none h-[calc(100dvh-128px-64px)]"}
-            id={"quick-start-task-history"}
+            id={"task-history"}
           >
             <XCNWaterfall
               columnsGroup={{
@@ -189,7 +158,8 @@ export default function HistoryViewer() {
               }}
               data={data}
               debugMode={false}
-              scrollContainer={"#quick-start-task-history"}
+              scrollContainer={"#task-history"}
+              onRequestBottomMore={handleRequestBottomMore}
             />
           </ScrollShadow>
         </div>

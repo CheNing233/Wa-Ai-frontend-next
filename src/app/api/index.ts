@@ -6,11 +6,15 @@ import {
   LoginResponse,
   LogoutResponse,
   RegisterParams,
-  RegisterResponse, ResetPasswordParams, ResetPasswordResponse,
+  RegisterResponse,
+  ResetPasswordParams,
+  ResetPasswordResponse,
   SendEmailCodeParams,
   SendEmailCodeResponse
 } from "@/app/api/model/user.ts";
 import { apiRoutes } from "@/config/api-routes.ts";
+import { GetStaticImageUrlByIdParams, GetStaticImageUrlByIdResponse } from "@/app/api/model/static-image.ts";
+import { GetTaskByUserParams, GetTaskByUserResponse } from "@/app/api/model/task.ts";
 
 
 export const WaApiEventList = {
@@ -158,6 +162,27 @@ export class WaApi extends EventTarget {
     });
 
     return await r?.json() as ResetPasswordResponse;
+  }
+
+  async getStaticImageUrlById(p: GetStaticImageUrlByIdParams)
+    : Promise<[GetStaticImageUrlByIdResponse, Response | null]> {
+
+    const r = await this.fetchApi(
+      `${apiRoutes.staticImage.getUrlById}?id=${p.id}`,
+      { method: "GET" }
+    );
+
+    return [await r?.json() as GetStaticImageUrlByIdResponse, r];
+  }
+
+  async getTaskByUser(p: GetTaskByUserParams) {
+
+    const r = await this.fetchApi(
+      `${apiRoutes.task.getTaskByUser}?page=${p.page}&pageSize=${p.pageSize}`,
+      { method: "GET" }
+    );
+
+    return await r?.json() as GetTaskByUserResponse;
   }
 }
 

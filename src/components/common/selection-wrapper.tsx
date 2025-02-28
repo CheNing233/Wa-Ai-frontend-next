@@ -22,38 +22,34 @@ const SelectionWrapper: React.FC<SelectionWrapperProps> = (
     left: "0",
     right: "0",
     bottom: "0",
-    borderWidth: "4px",
+    borderWidth: "2px",
     borderStyle: "solid",
-    borderRadius: "14px",
+    borderRadius: "19px",
+    borderColor: "#006FEE",
     pointerEvents: "none", // 防止边框拦截点击
     opacity: 1,
-    zIndex: 9999,
+    zIndex: 1000,
 
-    background: isMultiSelect && isSelected ? "rgba(0, 0, 0, 0.3)" : ""
-  };
-
-  // 多选文字样式
-  const multiSelectLabelStyle: CSSProperties = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 9999
+    background: isMultiSelect && isSelected ? "rgba(0, 0, 0, 0.2)" : ""
   };
 
   return (
     <div className={"relative w-full h-full"}>
       {/* 子组件容器（保持正常事件处理） */}
-      <div className={"relative w-full h-full"}>
+      <div
+        className={"relative w-full h-full"}
+        style={{
+          padding: isSelected ? "6px" : ""
+        }}
+      >
         {children}
       </div>
 
       {/* 选中状态层 */}
       {isSelected && (
-        <div className={"absolute left-0 top-0 right-0 bottom-0 pointer-events-none animate-appearance-in"}>
+        <div className={"absolute left-0 top-0 right-0 bottom-0 pointer-events-none"}>
           {/* 虚线边框 */}
           <div
-            className={"border-[var(--heroui-primary-foreground)]"}
             style={borderStyle}
           />
         </div>
@@ -62,11 +58,13 @@ const SelectionWrapper: React.FC<SelectionWrapperProps> = (
       {/* 多选状态文字 */}
       {isMultiSelect && (
         <div
-          className={"pointer-events-none"}
-          style={multiSelectLabelStyle}
+          className={"pointer-events-none absolute left-3 top-3 z-[9999]"}
+          style={{
+            backdropFilter: "blur(15px)",
+          }}
         >
-          {isSelected && <SquareCheckBig size={48} />}
-          {!isSelected && <Square size={48} />}
+          {isSelected && <SquareCheckBig size={24} />}
+          {!isSelected && <Square size={24} />}
         </div>
       )}
     </div>

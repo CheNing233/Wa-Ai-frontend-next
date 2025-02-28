@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { get as loGet, set as loSet } from "lodash";
+import { getChineseDateTime } from "@/utils/tools.ts";
 
 export type Txt2ImgParamType = {
   prompt: string;
@@ -66,7 +67,8 @@ export interface ParamFormType {
   id: string;
   alias: string;
   type: "txt2img" | "img2img" | "extra";
-  createdAt: Date;
+  createdAt: string;
+  modifiedAt: string;
   formContent: Txt2ImgParamType | Img2ImgParamType;
 }
 
@@ -116,6 +118,7 @@ export const useTI2I_ParamFormsStore = create(
         const updatedForms = [...state.forms];
 
         loSet(updatedForms[itemIndex].formContent, path, value);
+        updatedForms[itemIndex].modifiedAt = getChineseDateTime(new Date());
 
         set({ forms: updatedForms });
       },
