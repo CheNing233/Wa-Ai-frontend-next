@@ -9,7 +9,7 @@ import { ParamFormRenderer } from "@/components/workbench/param-form-renderer.ts
 import { app } from "@/app/app.tsx";
 
 export default function A1111() {
-  const formsConfig = app.params.loadConfig("ti2i");
+  const formsConfig = app.paramForm.loadConfig("ti2i");
 
   return (
     <div className={

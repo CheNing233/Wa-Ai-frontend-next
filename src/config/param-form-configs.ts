@@ -1,6 +1,6 @@
 import { ParamFormConfig } from "@/app/param-form.ts";
 
-export const TI2I_widgets_config: ParamFormConfig = [
+export const txt2img_form_config: ParamFormConfig = [
   {
     title: "Model",
     description: "Select the model you want to use",

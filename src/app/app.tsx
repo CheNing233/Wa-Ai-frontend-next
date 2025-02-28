@@ -5,14 +5,14 @@ import { WaParamForm } from "@/app/param-form.ts";
 export class WaApp {
   user: WaUser;
   api: WaApi;
-  params: WaParamForm;
+  paramForm: WaParamForm;
 
   constructor(
     test_url?: string
   ) {
     this.api = new WaApi(this, test_url);
     this.user = new WaUser(this);
-    this.params = new WaParamForm(this);
+    this.paramForm = new WaParamForm(this);
   }
 
   showVersion() {

@@ -1,10 +1,10 @@
 import { Textarea } from "@heroui/input";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";
-import { FieldGroupConfig } from "@/app/param-form.ts";
+import { ParamGroupConfig } from "@/app/param-form.ts";
 import { FC } from "react";
 
 interface PromptInputGroupProps {
-  config: FieldGroupConfig;
+  config: ParamGroupConfig;
 }
 
 export const PromptInputGroup: FC<PromptInputGroupProps> = (

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { get as loGet, set as loSet } from "lodash";
 
-export type ITxt2ImgParams = {
+export type Txt2ImgParamType = {
   prompt: string;
   steps: number;
   seed: number;
@@ -26,7 +26,7 @@ export type ITxt2ImgParams = {
   alwayson_scripts: any;
 };
 
-export type IImg2ImgParams = {
+export type Img2ImgParamType = {
   prompt: string;
   steps: number;
   seed: number;
@@ -62,22 +62,22 @@ export type IImg2ImgParams = {
 };
 
 
-export interface FormType {
+export interface ParamFormType {
   id: string;
   alias: string;
   type: "txt2img" | "img2img" | "extra";
   createdAt: Date;
-  form: ITxt2ImgParams | IImg2ImgParams;
+  formContent: Txt2ImgParamType | Img2ImgParamType;
 }
 
 interface TI2I_ParamFormsStoreState {
-  forms: FormType[];
+  forms: ParamFormType[];
   currentId: string | null;
 }
 
 interface TI2I_ParamFormsStoreActions {
   setCurrentId: (id: string | null) => void;
-  addForm: (form: FormType) => void;
+  addForm: (form: ParamFormType) => void;
   updateCurrentFormItem: (path: string, value: any) => void;
   getCurrentFormItem: (path: string) => any;
 }
@@ -115,7 +115,7 @@ export const useTI2I_ParamFormsStore = create(
         // 使用 lodash 的 set 方法进行深层次更新
         const updatedForms = [...state.forms];
 
-        loSet(updatedForms[itemIndex].form, path, value);
+        loSet(updatedForms[itemIndex].formContent, path, value);
 
         set({ forms: updatedForms });
       },
@@ -124,7 +124,8 @@ export const useTI2I_ParamFormsStore = create(
         const state = get();
 
         if (!state.currentId) {
-          console.error("No currentId found.");
+          console.error("[getCurrentFormItem] No currentId found.");
+
           return;
         }
 
@@ -133,12 +134,13 @@ export const useTI2I_ParamFormsStore = create(
         );
 
         if (itemIndex === -1) {
-          console.error("No form found with currentId.");
+          console.error("[getCurrentFormItem] No form found with currentId.");
+
           return;
         }
 
         // 使用 lodash 的 get 方法进行深层次获取
-        return loGet(state.forms[itemIndex].form, path);
+        return loGet(state.forms[itemIndex].formContent, path);
       }
     }),
     {

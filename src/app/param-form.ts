@@ -1,10 +1,10 @@
 import { WaApp } from "@/app/app.tsx";
-import { TI2I_widgets_config } from "@/config/TI2I-widgets-config.ts";
-import { FormType, useTI2I_ParamFormsStore } from "@/stores/paramFormStore.ts";
+import { txt2img_form_config } from "@/config/param-form-configs.ts";
+import { ParamFormType, useTI2I_ParamFormsStore } from "@/stores/paramFormStore.ts";
 import { generateId } from "@/utils/tools.ts";
 
 
-export type FieldConfig = {
+export type ParamFieldConfig = {
   // 字段名
   name: string
   // 类型
@@ -20,10 +20,12 @@ export type FieldConfig = {
   // 步长，适用于 number
   step?: number
   // 验证函数，返回错误信息或 null
-  validate?: (value: any) => string | null
+  validate?: (value: any) => string | null,
+  // 转换函数，返回转换后的值，用于转换为目标类型
+  convert?: (value: any) => any
 }
 
-export type FieldGroupConfig = {
+export type ParamGroupConfig = {
   // 分组标题
   title: string
   // 分组描述
@@ -31,10 +33,10 @@ export type FieldGroupConfig = {
   // 分组类型
   type: "model" | "prompt" | "common"
   // 分组字段列表
-  fields: FieldConfig[]
+  fields: ParamFieldConfig[]
 }
 
-export type ParamFormConfig = FieldGroupConfig[];
+export type ParamFormConfig = ParamGroupConfig[];
 
 
 export class WaParamForm {
@@ -44,12 +46,18 @@ export class WaParamForm {
     app: WaApp
   ) {
     this.app = app;
+
+    const formStore = useTI2I_ParamFormsStore.getState();
+
+    if (formStore.forms.length === 0) {
+      this.createForm("txt2img");
+    }
   }
 
   loadConfig(formType: "ti2i" | "extra") {
     switch (formType) {
       case "ti2i":
-        return TI2I_widgets_config;
+        return txt2img_form_config;
       case "extra":
         return [];
     }
@@ -59,12 +67,12 @@ export class WaParamForm {
     formType: "txt2img" | "img2img" | "extra",
     alias: string = new Date().getTime().toString()
   ) {
-    const newForm: FormType = {
+    const newForm: ParamFormType = {
       id: generateId("param-form"),
       alias: alias,
       type: formType,
       createdAt: new Date(),
-      form: {
+      formContent: {
         prompt: "",
         steps: 28,
         seed: -1,
@@ -90,5 +98,6 @@ export class WaParamForm {
     };
 
     useTI2I_ParamFormsStore.getState().addForm(newForm);
+    useTI2I_ParamFormsStore.getState().setCurrentId(newForm.id);
   }
 }

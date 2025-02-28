@@ -3,11 +3,11 @@ import { Button } from "@heroui/button";
 
 import ModelCard from "@/components/common/model-card.tsx";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";
-import { FieldGroupConfig } from "@/app/param-form.ts";
+import { ParamGroupConfig } from "@/app/param-form.ts";
 import { FC } from "react";
 
 interface ModelInputGroupProps {
-  config: FieldGroupConfig;
+  config: ParamGroupConfig;
 }
 
 export const ModelInputGroup: FC<ModelInputGroupProps> = (
