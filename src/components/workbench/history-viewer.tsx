@@ -49,8 +49,6 @@ export default function HistoryViewer() {
 
   const handleRequestBottomMore: (reqCount: number) => Promise<WaterfallItems[]> =
     (reqCount) => {
-      console.log("HistoryViewer handleRequestBottomMore");
-
       return new Promise<WaterfallItems[]>(
         (resolve, reject) => {
           app.task.getTaskByUser({
@@ -89,7 +87,7 @@ export default function HistoryViewer() {
           "flex-1 animate-appearance-in pt-7"
         }>
           <div className={
-            "absolute top-0 left-1/2 -translate-x-1/2 " +
+            "absolute top-0 left-1 " +
             "flex flex-row gap-2 z-10"
           }>
             <Tooltip content={"发帖"}>
@@ -134,7 +132,10 @@ export default function HistoryViewer() {
                 isIconOnly={true}
                 size={"sm"}
                 onPress={() => {
-                  selectedControllerRef.current?.selectAllItems();
+                  currentItem?.dataCls?.downloadImage(
+                    currentItem?.dataCls?.imageUrl,
+                    currentItem?.dataCls?.id
+                  );
                 }}
               >
                 <Download size={20} />
@@ -148,6 +149,7 @@ export default function HistoryViewer() {
             cardMaxWidth={"calc(100% - 16px)"}
             cardSlot={(
               <Image
+                className={"object-contain"}
                 isBlurred={true}
                 src={currentItem?.dataCls?.imageUrl}
                 style={{
@@ -177,8 +179,9 @@ export default function HistoryViewer() {
 
             <Tooltip content={"多选"}>
               <Button
-                isIconOnly={true} size={"sm"}
-                variant={selectedMode === "single" ? "shadow" : "solid"}
+                color={selectedMode === "multi" ? "primary" : "default"} isIconOnly={true}
+                size={"sm"}
+                variant={selectedMode === "multi" ? "shadow" : "solid"}
                 onPress={() => setSelectedMode(selectedMode === "single" ? "multi" : "single")}
               >
                 <CopyCheck size={20} />

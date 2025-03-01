@@ -1,13 +1,6 @@
 import { TaskType } from "@/app/api/model/task.ts";
 import { app } from "@/app/app.tsx";
-import { useXCNWaterfallItem, WaterfallItems } from "../../../../../../WebstormProjects/xcn-waterfall";
-import ImageCard from "@/components/common/image-card.tsx";
-import { FC } from "react";
 import { BaseDataCls } from "@/app/api/dataclass/base.ts";
-
-import { TaskCard } from "@/components/waterfall/taskImageCard.tsx";
-import SelectionWrapper from "@/components/tools/selection-controller.tsx";
-
 
 
 export class TaskDataCls extends BaseDataCls {
@@ -38,7 +31,7 @@ export class TaskDataCls extends BaseDataCls {
     return url;
   }
 
-  getImageCard() {
-    return TaskCard;
+  downloadImage(url: string, filename: string) {
+    app.staticImage.downloadImage(url, filename);
   }
 }

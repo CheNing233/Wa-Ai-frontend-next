@@ -193,7 +193,7 @@ const AutocompleteHelper = (
               >
                 {recommendations.map((value) => (
                   <ListboxItem key={String(value)}>
-                    {value}
+                    {`${value}`}
                   </ListboxItem>
                 ))}
               </Listbox>
@@ -223,7 +223,7 @@ const AutocompleteHelper = (
               >
                 {options.map((value) => (
                   <ListboxItem key={String(value)}>
-                    {value}
+                    {`${value}`}
                   </ListboxItem>
                 ))}
               </Listbox>

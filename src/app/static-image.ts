@@ -53,4 +53,15 @@ export class WaStaticImage {
       img.src = typeof image === "string" ? image : URL.createObjectURL(image);
     });
   }
+
+  downloadImage(url: string, filename: string): void {
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = filename; // 设置下载文件名
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 }

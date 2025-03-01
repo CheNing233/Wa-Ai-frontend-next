@@ -61,7 +61,7 @@ const CommonNumberInput: FC<CommonInputProps> = (
                 type={"number"}
                 value={getCurrentFormItem(config.target)}
                 onValueChange={(value: number | string) => {
-                  updateCurrentFormItem(config.target, value);
+                  updateCurrentFormItem(config.target, Number(value));
                 }}
               />
             )}
@@ -75,8 +75,8 @@ const CommonNumberInput: FC<CommonInputProps> = (
                   value={getCurrentFormItem(config.target)}
                   onFocus={() => setIsPopoverOpen(true)}
                   onValueChange={(value: any) => {
-                    updateCurrentFormItem(config.target, convertFunc(value));
-                    setInnerValue(value);
+                    updateCurrentFormItem(config.target, convertFunc(Number(value)));
+                    setInnerValue(Number(value));
                   }}
                 />
               )
