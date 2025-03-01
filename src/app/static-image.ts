@@ -1,5 +1,6 @@
 import { WaApp } from "@/app/app.tsx";
 import { GetStaticImageUrlByIdParams } from "@/app/api/model/static-image.ts";
+import { AbortableParams } from "@/app/api/model/base.ts";
 
 export class WaStaticImage {
   app: WaApp;
@@ -19,7 +20,7 @@ export class WaStaticImage {
    * @param p 包含所需静态图片ID的参数对象
    * @returns 返回一个Promise，解析为图片的URL字符串或空字符串
    */
-  async getStaticImageUrlById(p: GetStaticImageUrlByIdParams) {
+  async getStaticImageUrlById(p: GetStaticImageUrlByIdParams & AbortableParams) {
     // 调用API的getStaticImageUrlById方法，并仅获取结果数组的第一个元素
     const [r] = await this.app.api.getStaticImageUrlById(p);
 

@@ -184,7 +184,7 @@ export default function QuickStart() {
         </div>
 
         <div className={"flex-1"}>
-          <HistoryViewer />
+          <HistoryViewer key={"quick-start"} />
         </div>
       </div>
     </Container>

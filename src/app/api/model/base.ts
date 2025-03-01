@@ -1,4 +1,3 @@
-
 // 响应接口
 export interface BaseResponse<T> {
   /* 是否成功 */
@@ -14,4 +13,8 @@ export interface BaseResponse<T> {
   data: T;
 
   [key: string]: any;
+}
+
+export interface AbortableParams {
+  signal?: AbortSignal;
 }

@@ -17,10 +17,6 @@ export class WaTask {
     const newTasks: TaskDataCls[] = [];
 
     tasks.forEach((task) => {
-      const taskObj = new TaskDataCls(task);
-
-      taskObj.getImageUrl().finally(); // 获取图片地址
-
       newTasks.push(new TaskDataCls(task));
     });
 

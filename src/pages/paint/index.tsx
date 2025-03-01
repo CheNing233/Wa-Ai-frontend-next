@@ -63,15 +63,15 @@ export default function PaintPage() {
             path={"prompts"}
           />
           <Route
-            element={<QuickStart />}
+            element={<QuickStart key={"quick-start"} />}
             path={"quick-start"}
           />
           <Route
-            element={<A1111 />}
+            element={<A1111 key={"standard"} />}
             path={"standard"}
           />
           <Route
-            element={<Comfy />}
+            element={<Comfy key={"comfy"} />}
             path={"comfy"}
           />
         </Routes>

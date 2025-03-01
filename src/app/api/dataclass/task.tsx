@@ -1,46 +1,14 @@
 import { TaskType } from "@/app/api/model/task.ts";
 import { app } from "@/app/app.tsx";
 import { useXCNWaterfallItem, WaterfallItems } from "../../../../../../WebstormProjects/xcn-waterfall";
-import SelectionWrapper from "@/components/common/selection-wrapper.tsx";
 import ImageCard from "@/components/common/image-card.tsx";
 import { FC } from "react";
 import { BaseDataCls } from "@/app/api/dataclass/base.ts";
 
-// 会在 WaterfallTool 中注入参数
-export interface TaskCardProps {
-  // itemData 保存渲染配置和State
-  itemData: WaterfallItems;
-  // itemCls 原始数据类，提供原始数据方法
-  itemCls: TaskDataCls;
-}
+import { TaskCard } from "@/components/waterfall/taskImageCard.tsx";
+import SelectionWrapper from "@/components/tools/selection-controller.tsx";
 
 
-const TaskCard: FC<TaskCardProps> = (
-  { itemCls, itemData }
-) => {
-  const { item, updateItem } = useXCNWaterfallItem(itemData.id);
-
-  return (
-    <SelectionWrapper
-      isMultiSelect={true}
-      isSelected={item?.isSelected || false}
-    >
-      <ImageCard
-        height={item.height}
-        src={itemCls.imageUrl || ""}
-        // title={item.id}
-        // userAvatarUrl={"https://avatars.githubusercontent.com/u/32773451?v=4"}
-        // userNickName={"xChenNing"}
-        width={item.width}
-        onCardClick={() => {
-          updateItem({
-            isSelected: !item?.isSelected || false
-          });
-        }}
-      />
-    </SelectionWrapper>
-  );
-};
 
 export class TaskDataCls extends BaseDataCls {
   raw_data: TaskType;
@@ -55,10 +23,13 @@ export class TaskDataCls extends BaseDataCls {
     return this.raw_data.id;
   }
 
-  async getImageUrl() {
+  async getImageUrl(signal: AbortSignal) {
     if (this.imageUrl) return this.imageUrl;
 
-    const url = await app.staticImage.getStaticImageUrlById({ id: this.raw_data.id });
+    const url = await app.staticImage.getStaticImageUrlById({
+      id: this.raw_data.id,
+      signal: signal
+    });
 
     if (url) {
       this.imageUrl = url;

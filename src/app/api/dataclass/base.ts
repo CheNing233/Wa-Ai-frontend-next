@@ -7,7 +7,7 @@ export abstract class BaseDataCls {
 
   abstract getId(): string
 
-  abstract getImageUrl(): Promise<string | null>
+  abstract getImageUrl(signal: AbortSignal): Promise<string | null>
 
   abstract getImageCard(): FC<any>
 }

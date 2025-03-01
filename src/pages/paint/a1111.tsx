@@ -142,7 +142,7 @@ export default function A1111() {
           </div>
 
           <div className={"flex-1"}>
-            <HistoryViewer />
+            <HistoryViewer key={"A1111"} />
           </div>
         </div>
       </div>

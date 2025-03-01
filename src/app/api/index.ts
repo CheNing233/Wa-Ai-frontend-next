@@ -15,6 +15,8 @@ import {
 import { apiRoutes } from "@/config/api-routes.ts";
 import { GetStaticImageUrlByIdParams, GetStaticImageUrlByIdResponse } from "@/app/api/model/static-image.ts";
 import { GetTaskByUserParams, GetTaskByUserResponse } from "@/app/api/model/task.ts";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import { AbortableParams } from "@/app/api/model/base.ts";
 
 
 export const WaApiEventList = {
@@ -95,6 +97,60 @@ export class WaApi extends EventTarget {
     }
   }
 
+  /**
+   * 使用 Axios 库异步获取 API 数据
+   * @deprecated
+   * @param url 请求的 URL
+   * @param options 可选的请求配置，包括方法和请求体
+   * @returns 返回一个 Promise，解析为响应数据或 null
+   */
+  async fetchApiWithAxios(url: string, options?: RequestInit): Promise<any | null> {
+    // 目标 URL
+    const target = url;
+
+    // fetch 转 Axios 配置
+    const config: AxiosRequestConfig = {
+      baseURL: "/api",
+      url: target,
+      method: options?.method || "GET",
+      data: options?.body
+    };
+
+    try {
+      // 发起请求并获取响应
+      const response = await axios(config);
+
+      // axios 转 fetch 响应
+      return {
+        json: () => Promise.resolve(response.data)
+      };
+    } catch (error) {
+      // 将错误转换为 AxiosError 类型，以便处理不同类型的错误
+      const axiosError = error as AxiosError;
+
+      // 处理 HTTP 状态码错误（4xx/5xx）
+      if (axiosError.response) {
+        console.warn(`WaApi HTTP Error: ${target} ${axiosError.response.status} ${axiosError.response.statusText}`);
+        this.dispatchEvent(new CustomEvent(WaApiEventList.http_error, {
+          detail: {
+            status: axiosError.response.status,
+            statusText: axiosError.response.statusText
+          }
+        }));
+      }
+      // 处理网络错误（DNS/CORS/超时等）
+      else if (axiosError.request) {
+        console.warn(`WaApi Network Error: ${target}`, axiosError);
+        this.dispatchEvent(new CustomEvent(WaApiEventList.network_error, {
+          detail: axiosError
+        }));
+      }
+
+      // 在发生错误时返回 null
+      return null;
+    }
+  }
+
   async login(p: LoginParams) {
     const r = await this.fetchApi(apiRoutes.account.login, {
       method: "POST",
@@ -164,12 +220,18 @@ export class WaApi extends EventTarget {
     return await r?.json() as ResetPasswordResponse;
   }
 
-  async getStaticImageUrlById(p: GetStaticImageUrlByIdParams)
+  async getStaticImageUrlById(p: GetStaticImageUrlByIdParams & AbortableParams)
     : Promise<[GetStaticImageUrlByIdResponse, Response | null]> {
+
+    let options: RequestInit = {
+      method: "GET"
+    };
+
+    if (p.signal) options["signal"] = p.signal;
 
     const r = await this.fetchApi(
       `${apiRoutes.staticImage.getUrlById}?id=${p.id}`,
-      { method: "GET" }
+      options
     );
 
     return [await r?.json() as GetStaticImageUrlByIdResponse, r];

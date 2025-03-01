@@ -1,42 +1,84 @@
 import { Button } from "@heroui/button";
 import { CopyCheck, Download, Eye, EyeOff, Heart, Send, Settings, Star, ZoomIn } from "lucide-react";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Image } from "@heroui/image";
 import { Tooltip } from "@heroui/tooltip";
 
 import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 import TiltCard from "@/components/tilt-card.tsx";
-import SelectionWrapper from "@/components/common/selection-wrapper.tsx";
-import { app } from "@/app/app.tsx";
 import { TaskDataCls } from "@/app/api/dataclass/task.tsx";
+import { app } from "@/app/app.tsx";
 import { WaterfallTool } from "@/app/tools/waterfall.tsx";
+import { TaskCard } from "@/components/waterfall/taskImageCard.tsx";
+import { SelectionController, SelectionControllerElement } from "@/components/tools/selection-controller.tsx";
 
 
 export default function HistoryViewer() {
-  const [data, setData] = useState();
+  const selectedControllerRef = useRef<SelectionControllerElement>(null);
+
+  const [data] = useState<WaterfallItems[]>([]);
 
   const [showViewer, setShowViewer] = useState(true);
+  const [selectedMode, setSelectedMode] = useState<"single" | "multi">("single");
+  const [currentItem, setCurrentItem] = useState<WaterfallItems | null>(null);
+
+  const abortController = useRef<AbortController>(new AbortController());
+
+  useEffect(() => {
+    abortController.current.abort();
+    abortController.current = new AbortController();
+
+    const handleSelectionChange = (e: any) => {
+      const item = (e as CustomEvent<WaterfallItems>).detail;
+
+      setCurrentItem(item || null);
+    };
+
+    if (selectedControllerRef.current)
+      selectedControllerRef.current.eventTarget.addEventListener("selectionChange", handleSelectionChange);
+
+    return () => {
+      abortController.current.abort();
+
+      if (selectedControllerRef.current)
+        selectedControllerRef.current.eventTarget.removeEventListener("selectionChange", handleSelectionChange);
+    };
+  }, []);
 
   const handleRequestBottomMore: (reqCount: number) => Promise<WaterfallItems[]> =
-    async (reqCount) => {
-      const taskDataClsList: TaskDataCls[] = await app.task.getTaskByUser({
-        page: reqCount,
-        pageSize: 12
-      });
+    (reqCount) => {
+      console.log("HistoryViewer handleRequestBottomMore");
 
-      const promiseList: Promise<WaterfallItems>[] = [];
+      return new Promise<WaterfallItems[]>(
+        (resolve, reject) => {
+          app.task.getTaskByUser({
+            page: reqCount,
+            pageSize: 12
+          })
+            .then((taskDataClsList: TaskDataCls[]) => {
+              const promiseList: Promise<WaterfallItems>[] = [];
 
-      if (taskDataClsList.length > 0) {
-        for (const taskCls of taskDataClsList) {
-          promiseList.push(WaterfallTool.buildWaterfallItem(taskCls));
+              if (taskDataClsList.length > 0) {
+                for (const taskCls of taskDataClsList) {
+                  promiseList.push(WaterfallTool.buildWaterfallItem(
+                    taskCls,
+                    TaskCard,
+                    abortController.current.signal
+                  ));
+                }
+              }
+
+              Promise.all(promiseList)
+                .then((waterfallItems: WaterfallItems[]) => {
+                  resolve(waterfallItems);
+                })
+                .catch(reject);
+            })
+            .catch(reject);
         }
-      }
-
-      const newWaterfallItems: WaterfallItems[] = await Promise.all(promiseList);
-
-      return newWaterfallItems;
+      );
     };
 
   return (
@@ -91,31 +133,30 @@ export default function HistoryViewer() {
               <Button
                 isIconOnly={true}
                 size={"sm"}
+                onPress={() => {
+                  selectedControllerRef.current?.selectAllItems();
+                }}
               >
                 <Download size={20} />
               </Button>
             </Tooltip>
           </div>
 
-          <SelectionWrapper
-            isMultiSelect={false}
-            isSelected={false}
-          >
-            <TiltCard
-              cardAspectRatio={"832/1216"}
-              cardMaxHeight={"calc(100dvh - 128px - 84px)"}
-              cardSlot={(
-
-                <Image
-                  isBlurred={true}
-                  src={"/test.png"}
-                  style={{
-                    aspectRatio: "832/1216"
-                  }}
-                />
-              )}
-            />
-          </SelectionWrapper>
+          <TiltCard
+            cardAspectRatio={`${currentItem?.width || 600}/${currentItem?.height || 600}`}
+            cardMaxHeight={"calc(100dvh - 128px - 84px)"}
+            cardMaxWidth={"calc(100% - 16px)"}
+            cardSlot={(
+              <Image
+                isBlurred={true}
+                src={currentItem?.dataCls?.imageUrl}
+                style={{
+                  opacity: 1,
+                  aspectRatio: `${currentItem?.width || 600}/${currentItem?.height || 600}`
+                }}
+              />
+            )}
+          />
 
         </div>}
 
@@ -135,7 +176,11 @@ export default function HistoryViewer() {
             </Tooltip>
 
             <Tooltip content={"多选"}>
-              <Button isIconOnly={true} size={"sm"}>
+              <Button
+                isIconOnly={true} size={"sm"}
+                variant={selectedMode === "single" ? "shadow" : "solid"}
+                onPress={() => setSelectedMode(selectedMode === "single" ? "multi" : "single")}
+              >
                 <CopyCheck size={20} />
               </Button>
             </Tooltip>
@@ -147,21 +192,25 @@ export default function HistoryViewer() {
             </Tooltip>
           </div>
 
-          <ScrollShadow
-            className={"flex-none h-[calc(100dvh-128px-64px)]"}
-            id={"task-history"}
+          <SelectionController
+            ref={selectedControllerRef}
+            selectedMode={selectedMode}
           >
-            <XCNWaterfall
-              columnsGroup={{
-                xs: 1,
-                sm: 3
-              }}
-              data={data}
-              debugMode={false}
-              scrollContainer={"#task-history"}
-              onRequestBottomMore={handleRequestBottomMore}
-            />
-          </ScrollShadow>
+            <ScrollShadow
+              className={"flex-none h-[calc(100dvh-128px-64px)] __id_task_history"}
+            >
+              <XCNWaterfall
+                columnsGroup={{
+                  xs: 1,
+                  sm: 3
+                }}
+                data={data}
+                debugMode={false}
+                scrollContainer={".__id_task_history"}
+                onRequestBottomMore={handleRequestBottomMore}
+              />
+            </ScrollShadow>
+          </SelectionController>
         </div>
       </CardBody>
     </Card>

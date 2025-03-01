@@ -1,6 +1,16 @@
 import { BaseDataCls } from "@/app/api/dataclass/base.ts";
 import { app } from "@/app/app.tsx";
 import { WaterfallItems } from "../../../../../WebstormProjects/xcn-waterfall";
+import { FC } from "react";
+
+
+// 会在 WaterfallTool 中注入参数
+export interface WaterfallImageCardProps {
+  // itemData 保存渲染配置和State
+  itemData: WaterfallItems;
+  // itemCls 原始数据类，提供原始数据方法
+  itemCls: BaseDataCls;
+}
 
 
 export class WaterfallTool {
@@ -8,16 +18,17 @@ export class WaterfallTool {
   }
 
   static async buildWaterfallItem(
-    dataCls: BaseDataCls
+    dataCls: BaseDataCls,
+    imageCard: FC<WaterfallImageCardProps>,
+    signal: AbortSignal
   ) {
-    console.log("[buildWaterfallItem] getImageUrl");
-    const imageUrl = await dataCls.getImageUrl();
-    console.log("[buildWaterfallItem] getImageUrl end");
+    const imageUrl = await dataCls.getImageUrl(signal);
 
     if (!imageUrl) throw new Error("[buildWaterfallItem] imageUrl is null");
 
     const { width, height } = await app.staticImage.getImageDimensions(imageUrl as string);
-    const Card = dataCls.getImageCard();
+
+    const Card = imageCard;
 
     return {
       id: dataCls.getId(),
@@ -29,7 +40,8 @@ export class WaterfallTool {
             <Card itemCls={dataCls} itemData={item} />
           </div>
         );
-      }
+      },
+      dataCls: dataCls
     } as WaterfallItems;
   }
 }
