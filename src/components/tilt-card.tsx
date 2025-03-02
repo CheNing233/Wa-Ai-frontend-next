@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import { Card, CardBody } from "@heroui/card";
+import { Card, CardBody } from "@heroui/react";
 import { TriangleDashed } from "lucide-react";
 
 const TiltCard = (

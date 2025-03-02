@@ -1,9 +1,7 @@
-import { CheckboxGroup, useCheckbox } from "@heroui/checkbox";
+import { Button, CheckboxGroup, Chip, useCheckbox } from "@heroui/react";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
-import { Chip } from "@heroui/chip";
 import { CheckCircle, Circle, RotateCcw } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@heroui/button";
 
 interface checkboxItem {
   key: string;

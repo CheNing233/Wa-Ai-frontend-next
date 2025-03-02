@@ -1,11 +1,6 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import { Modal, ModalContent } from "@heroui/modal";
-import { Button } from "@heroui/button";
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Image } from "@heroui/image";
+import { Avatar, Button, Card, CardBody, CardHeader, Image, Modal, ModalContent, Textarea } from "@heroui/react";
 import { Braces, Copy, Heart, Send, Share2, ThumbsUp, Zap } from "lucide-react";
-import { Avatar } from "@heroui/avatar";
-import { Textarea } from "@heroui/input";
 
 const ImageContent = () => {
   return (

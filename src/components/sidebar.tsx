@@ -1,10 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
-import { Listbox, ListboxItem, ListboxSection } from "@heroui/listbox";
-import { Divider } from "@heroui/divider";
+import { Button, Divider, Drawer, DrawerContent, Listbox, ListboxItem, ListboxSection } from "@heroui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, MousePointer } from "lucide-react";
-import { Button } from "@heroui/button";
-import { Drawer, DrawerContent } from "@heroui/drawer";
 
 import { sidebarSection } from "@/config/menus.tsx";
 import { useIsMobile } from "@/hooks/use-mobile.tsx";

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover";
-import { Button } from "@heroui/button";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import CheckboxSection from "@/components/common/checkbox-section.tsx";

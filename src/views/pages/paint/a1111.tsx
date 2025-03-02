@@ -1,15 +1,23 @@
-import { ScrollShadow } from "@heroui/scroll-shadow";
-import { Card, CardBody } from "@heroui/card";
-import { Button } from "@heroui/button";
+import {
+  Button,
+  Card,
+  CardBody,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  Kbd,
+  ScrollShadow,
+  Select,
+  SelectItem
+} from "@heroui/react";
 import { ChevronDown, Download, RefreshCcw, Zap } from "lucide-react";
-import { Select, SelectItem } from "@heroui/select";
 import HistoryViewer from "@/components/workbench/history-viewer.tsx";
-import { Chip } from "@heroui/chip";
 import { ParamFormRenderer } from "@/components/workbench/param-form-renderer.tsx";
 import { $app } from "@/app/app.tsx";
 import { useParamFormsVM } from "@/viewModels/useParamFormsVM.tsx";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@heroui/dropdown";
-import { Kbd } from "@heroui/kbd";
 import NiceModal from "@ebay/nice-modal-react";
 import { dialogIdsRegister } from "@/config/dialogs.ts";
 

@@ -1,11 +1,6 @@
-import { Input } from "@heroui/input";
-import { Button } from "@heroui/button";
+import { Button, Card, CardBody, Divider, Input, Kbd, Tooltip } from "@heroui/react";
 import { ArrowRight, Volume2, Wand } from "lucide-react";
-import { Kbd } from "@heroui/kbd";
-import { Divider } from "@heroui/divider";
-import { Card, CardBody } from "@heroui/card";
 import { useState } from "react";
-import { Tooltip } from "@heroui/tooltip";
 
 import { title } from "@/components/utils/primitives.ts";
 import ImageCard from "@/components/common/image-card.tsx";

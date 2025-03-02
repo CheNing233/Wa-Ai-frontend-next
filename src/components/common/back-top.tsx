@@ -1,5 +1,5 @@
 import { ArrowUpToLine } from "lucide-react";
-import { Button } from "@heroui/button";
+import { Button } from "@heroui/react";
 import { RefObject } from "react";
 
 export type scrollElement = HTMLDivElement | string | RefObject<HTMLDivElement>;

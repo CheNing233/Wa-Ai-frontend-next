@@ -1,12 +1,5 @@
-import { ModalBody, ModalFooter, ModalHeader } from "@heroui/modal";
-import { Input } from "@heroui/input";
+import { Button, Chip, Divider, Form, Input, InputOtp, Link, ModalBody, ModalFooter, ModalHeader } from "@heroui/react";
 import { Github, Hourglass, Lock, Mail, Send, Tag, User } from "lucide-react";
-import { Link } from "@heroui/link";
-import { Button } from "@heroui/button";
-import { Divider } from "@heroui/divider";
-import { Chip } from "@heroui/chip";
-import { InputOtp } from "@heroui/input-otp";
-import { Form } from "@heroui/form";
 import { FormEvent, useState } from "react";
 
 import { SpinWrapper } from "@/components/common/spin-wrapper.tsx";

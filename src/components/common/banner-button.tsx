@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Button, ButtonProps } from "@heroui/button";
-import { Divider } from "@heroui/divider";
+import { Button, ButtonProps, Divider } from "@heroui/react";
 
 import { title } from "@/components/utils/primitives.ts";
 

@@ -1,11 +1,6 @@
-import { Button } from "@heroui/button";
+import { Button, Card, CardBody, Input, ScrollShadow, Select, SelectItem, Slider, Textarea } from "@heroui/react";
 import { Settings, Smartphone, TvMinimal, X, Zap } from "lucide-react";
 import { ReactNode, useState } from "react";
-import { Input, Textarea } from "@heroui/input";
-import { Slider } from "@heroui/slider";
-import { Card, CardBody } from "@heroui/card";
-import { ScrollShadow } from "@heroui/scroll-shadow";
-import { Select, SelectItem } from "@heroui/select";
 import Container from "@/components/common/container.tsx";
 import HistoryViewer from "@/components/workbench/history-viewer.tsx";
 import { ModelInputGroup } from "@/components/workbench/widgets/model-input-group.tsx";

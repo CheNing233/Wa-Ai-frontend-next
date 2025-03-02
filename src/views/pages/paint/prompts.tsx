@@ -1,8 +1,4 @@
-import { Input } from "@heroui/input";
-import { Card, CardBody } from "@heroui/card";
-import { Switch } from "@heroui/switch";
-import { Tab, Tabs } from "@heroui/tabs";
-import { Button } from "@heroui/button";
+import { Button, Card, CardBody, Input, Switch, Tab, Tabs } from "@heroui/react";
 import { Copy, HelpCircle, Send, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 

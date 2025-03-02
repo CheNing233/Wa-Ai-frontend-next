@@ -1,4 +1,4 @@
-import { addToast } from "@heroui/toast";
+import { addToast } from "@heroui/react";
 
 import { WaApp } from "@/app/app.tsx";
 import { LoginParams, RegisterParams, ResetPasswordParams, SendEmailCodeParams } from "@/app/api/model/user.ts";

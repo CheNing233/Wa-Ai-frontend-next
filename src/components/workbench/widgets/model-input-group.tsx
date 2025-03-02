@@ -1,5 +1,5 @@
 import { ArrowLeftRight, PlusIcon } from "lucide-react";
-import { Button } from "@heroui/button";
+import { Button } from "@heroui/react";
 
 import ModelCard from "@/components/common/model-card.tsx";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";

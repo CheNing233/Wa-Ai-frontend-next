@@ -1,9 +1,5 @@
-import { Card, CardBody } from "@heroui/card";
-import { Button } from "@heroui/button";
-import { Select, SelectItem } from "@heroui/select";
+import { Button, Card, CardBody, Chip, Divider, Select, SelectItem } from "@heroui/react";
 import { Download, HistoryIcon, RefreshCcw, Zap } from "lucide-react";
-import { Divider } from "@heroui/divider";
-import { Chip } from "@heroui/chip";
 
 
 export default function Comfy() {

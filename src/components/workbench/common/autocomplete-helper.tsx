@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { Slider } from "@heroui/slider";
+import { Card, CardBody, Chip, Listbox, ListboxItem, Slider } from "@heroui/react";
 import { ChevronsLeftRightEllipsis } from "lucide-react";
-import { Chip } from "@heroui/chip";
-import { Listbox, ListboxItem } from "@heroui/listbox";
 
 import { debounce } from "@/utils/flow-control.ts";
-import { Card, CardBody } from "@heroui/card";
 
 type AutocompleteHelperProps = {
   // 显示控制

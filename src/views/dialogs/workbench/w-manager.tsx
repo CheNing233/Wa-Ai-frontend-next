@@ -1,9 +1,18 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import { Modal, ModalContent } from "@heroui/modal";
+import {
+  Button,
+  getKeyValue,
+  Modal,
+  ModalContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow
+} from "@heroui/react";
 import { SpinWrapper } from "@/components/common/spin-wrapper.tsx";
-import { Button } from "@heroui/button";
 import { Plus } from "lucide-react";
-import { getKeyValue, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 
 const rows = [
   {

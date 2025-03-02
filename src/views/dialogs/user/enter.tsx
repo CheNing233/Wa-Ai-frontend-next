@@ -1,5 +1,5 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import { Modal, ModalContent } from "@heroui/modal";
+import { Modal, ModalContent } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 import UserLogin from "@/views/dialogs/user/login.tsx";

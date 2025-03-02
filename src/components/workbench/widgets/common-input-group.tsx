@@ -1,13 +1,10 @@
 import { ParamFieldConfig, ParamGroupConfig } from "@/app/param-form.ts";
 import React, { FC, useState } from "react";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";
-import { Card, CardBody } from "@heroui/card";
+import { Card, CardBody, Input, Radio, RadioGroup, Switch } from "@heroui/react";
 import { useParamFormsVM } from "@/viewModels/useParamFormsVM.tsx";
 import NativePopover from "@/components/common/native-popover.tsx";
 import AutocompleteHelper from "@/components/workbench/common/autocomplete-helper.tsx";
-import { Input } from "@heroui/input";
-import { Switch } from "@heroui/switch";
-import { Radio, RadioGroup } from "@heroui/radio";
 
 
 interface CommonInputGroupProps {

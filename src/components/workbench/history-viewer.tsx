@@ -1,10 +1,17 @@
-import { Button } from "@heroui/button";
+import {
+  Button,
+  Card,
+  CardBody,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Image,
+  ScrollShadow,
+  Tooltip
+} from "@heroui/react";
 import { CopyCheck, Download, Ellipsis, Eye, Heart, LayoutList, Send, Star, Trash, ZoomIn } from "lucide-react";
-import { ScrollShadow } from "@heroui/scroll-shadow";
 import { useEffect, useRef, useState } from "react";
-import { Card, CardBody } from "@heroui/card";
-import { Image } from "@heroui/image";
-import { Tooltip } from "@heroui/tooltip";
 
 import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 import TiltCard from "@/components/tilt-card.tsx";
@@ -13,7 +20,6 @@ import { $app } from "@/app/app.tsx";
 import { WaterfallTool } from "@/app/tools/waterfall.tsx";
 import { TaskCard } from "@/components/waterfall/taskImageCard.tsx";
 import { SelectionController, SelectionControllerElement } from "@/components/tools/selection-controller.tsx";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
 
 
 export default function HistoryViewer() {

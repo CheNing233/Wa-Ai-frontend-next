@@ -1,10 +1,5 @@
-import { Card, CardBody } from "@heroui/card";
-import { Image } from "@heroui/image";
-import { Chip } from "@heroui/chip";
-import { Tooltip } from "@heroui/tooltip";
-import { Button } from "@heroui/button";
+import { Accordion, AccordionItem, Button, Card, CardBody, Chip, Image, Tooltip } from "@heroui/react";
 import { CopyIcon, InfoIcon, Settings } from "lucide-react";
-import { Accordion, AccordionItem } from "@heroui/accordion";
 import { ReactNode } from "react";
 
 export interface ModelCardProps {

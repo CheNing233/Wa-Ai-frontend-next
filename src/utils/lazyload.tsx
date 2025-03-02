@@ -1,6 +1,6 @@
 import React from "react";
 import loadable from "@loadable/component";
-import { Spinner } from "@heroui/spinner";
+import { Spinner } from "@heroui/react";
 
 
 // https://github.com/gregberge/loadable-components/pull/226

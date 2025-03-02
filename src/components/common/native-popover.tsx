@@ -1,5 +1,5 @@
 import React, { FC, MouseEvent, ReactNode, RefObject, useEffect, useRef, useState } from "react";
-import { Card, CardBody } from "@heroui/card";
+import { Card, CardBody } from "@heroui/react";
 import ReactDOM from "react-dom";
 
 interface AutocompletePopoverProps {

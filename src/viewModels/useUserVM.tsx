@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addToast } from "@heroui/toast";
+import { addToast } from "@heroui/react";
 
 import { useUserStore } from "@/stores/userStore.ts";
 import { $app } from "@/app/app.tsx";

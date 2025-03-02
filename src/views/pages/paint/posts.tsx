@@ -1,5 +1,4 @@
-import { Select, SelectItem } from "@heroui/select";
-import { Button } from "@heroui/button";
+import { Button, Select, SelectItem } from "@heroui/react";
 import { Plus } from "lucide-react";
 import { WaterfallItems, XCNWaterfall } from "../../../../../../WebstormProjects/xcn-waterfall";
 import { useState } from "react";

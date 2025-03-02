@@ -1,10 +1,19 @@
-import { Image, ImageProps } from "@heroui/image";
-import { Card, CardBody, CardFooter, CardProps } from "@heroui/card";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
-import { Avatar } from "@heroui/avatar";
-import { Chip } from "@heroui/chip";
+import {
+  Avatar,
+  Card,
+  CardBody,
+  CardFooter,
+  CardProps,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Image,
+  ImageProps,
+  Tooltip
+} from "@heroui/react";
 import { Heart, Info, Star } from "lucide-react";
-import { Tooltip } from "@heroui/tooltip";
 import { useState } from "react";
 
 interface ImageCardProps {

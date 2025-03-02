@@ -1,4 +1,4 @@
-import { Textarea } from "@heroui/input";
+import { Textarea } from "@heroui/react";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";
 import { ParamGroupConfig } from "@/app/param-form.ts";
 import { FC } from "react";

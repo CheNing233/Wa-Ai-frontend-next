@@ -1,4 +1,4 @@
-import { Select, SelectItem } from "@heroui/select";
+import { Select, SelectItem } from "@heroui/react";
 import { useState } from "react";
 
 import { WaterfallItems, XCNWaterfall } from "../../../../../../WebstormProjects/xcn-waterfall";
