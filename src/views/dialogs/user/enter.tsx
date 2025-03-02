@@ -2,10 +2,10 @@ import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { Modal, ModalContent } from "@heroui/modal";
 import { useEffect, useState } from "react";
 
-import UserLogin from "@/pages/user/login.tsx";
-import UserForgetPassword from "@/pages/user/forget-pwd.tsx";
-import UserRegister from "@/pages/user/register.tsx";
-import { useUserVM } from "@/controller/useUserVM.tsx";
+import UserLogin from "@/views/dialogs/user/login.tsx";
+import UserForgetPassword from "@/views/dialogs/user/forget-pwd.tsx";
+import UserRegister from "@/views/dialogs/user/register.tsx";
+import { useUserVM } from "@/viewModels/useUserVM.tsx";
 
 type UserEnterForms = "login" | "register" | "forgetPassword";
 

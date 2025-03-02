@@ -9,9 +9,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { Form } from "@heroui/form";
 import { Button } from "@heroui/button";
 
-import { useUserVM } from "@/controller/useUserVM.tsx";
+import { useUserVM } from "@/viewModels/useUserVM.tsx";
 import { SpinWrapper } from "@/components/common/spin-wrapper.tsx";
-import { app } from "@/app/app.tsx";
+import { $app } from "@/app/app.tsx";
 import { LoginParams } from "@/app/api/model/user.ts";
 
 export default function UserLogin(
@@ -80,7 +80,7 @@ export default function UserLogin(
       [loginPattern === "userName" ? "userName" : "email"]: account
     };
 
-    app.user.login(p).finally();
+    $app.user.login(p).finally();
   };
 
   return (

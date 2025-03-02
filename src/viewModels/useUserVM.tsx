@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { addToast } from "@heroui/toast";
 
 import { useUserStore } from "@/stores/userStore.ts";
-import { app } from "@/app/app.tsx";
+import { $app } from "@/app/app.tsx";
 import { SendEmailCodeParams } from "@/app/api/model/user.ts";
 
 
@@ -54,7 +54,7 @@ export const useUserVM = () => {
       }
     }, 1000);
 
-    await app.user.sendEmailCode(p);
+    await $app.user.sendEmailCode(p);
   };
 
   return {

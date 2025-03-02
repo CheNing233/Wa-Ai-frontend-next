@@ -25,9 +25,9 @@ import NiceModal from "@ebay/nice-modal-react";
 import { headerMenuConfig } from "@/config/menus.tsx";
 import BannerButton from "@/components/common/banner-button.tsx";
 import { useTheme } from "@/hooks/use-theme.ts";
-import { modalIdsRegister } from "@/config/modals.ts";
-import { useUserVM } from "@/controller/useUserVM.tsx";
-import { app } from "@/app/app.tsx";
+import { dialogIdsRegister } from "@/config/dialogs.ts";
+import { useUserVM } from "@/viewModels/useUserVM.tsx";
+import { $app } from "@/app/app.tsx";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export const Header = () => {
   const { user, userState } = useUserVM();
 
   const handleLogOut = ()=>{
-    app.user.logout().finally();
+    $app.user.logout().finally();
   }
 
   const searchInput = (
@@ -236,7 +236,7 @@ export const Header = () => {
           startContent={(userState !== "pending" && <LogIn size={16} />)}
           variant={"shadow"}
           onPress={() => {
-            NiceModal.show(modalIdsRegister.userEnter).finally();
+            NiceModal.show(dialogIdsRegister.userEnter).finally();
           }}
         >
           {userState !== "pending" && <span className={"font-bold text-sm"}>登录免费画图</span>}

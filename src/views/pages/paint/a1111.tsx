@@ -6,10 +6,12 @@ import { Select, SelectItem } from "@heroui/select";
 import HistoryViewer from "@/components/workbench/history-viewer.tsx";
 import { Chip } from "@heroui/chip";
 import { ParamFormRenderer } from "@/components/workbench/param-form-renderer.tsx";
-import { app } from "@/app/app.tsx";
-import { useParamFormsVM } from "@/controller/useParamFormsVM.tsx";
+import { $app } from "@/app/app.tsx";
+import { useParamFormsVM } from "@/viewModels/useParamFormsVM.tsx";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@heroui/dropdown";
 import { Kbd } from "@heroui/kbd";
+import NiceModal from "@ebay/nice-modal-react";
+import { dialogIdsRegister } from "@/config/dialogs.ts";
 
 const FormDropdown = () => {
   const { forms, currentId, setCurrentId } = useParamFormsVM();
@@ -31,7 +33,14 @@ const FormDropdown = () => {
       <DropdownMenu aria-label="Static Actions">
         <DropdownSection title={"操作"}>
           <DropdownItem key="new">新建工作台</DropdownItem>
-          <DropdownItem key="edit">管理工作台</DropdownItem>
+          <DropdownItem
+            key="edit"
+            onPress={() => {
+              NiceModal.show(dialogIdsRegister.workbenchManager).finally();
+            }}
+          >
+            管理工作台
+          </DropdownItem>
         </DropdownSection>
         <DropdownSection title={"本地已保存"}>
           {
@@ -62,7 +71,7 @@ const FormDropdown = () => {
 
 
 export default function A1111() {
-  const formsConfig = app.paramForm.loadConfig("ti2i");
+  const formsConfig = $app.paramForm.loadConfig("ti2i");
 
   return (
     <div className={

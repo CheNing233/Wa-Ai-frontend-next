@@ -6,7 +6,7 @@ import { Button } from "@heroui/button";
 import { Copy, HelpCircle, Send, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
+import { useXCNWaterfallItem, WaterfallItems, XCNWaterfall } from "../../../../../../WebstormProjects/xcn-waterfall";
 
 import Container from "@/components/common/container.tsx";
 import PromptButton from "@/components/common/prompt-button.tsx";

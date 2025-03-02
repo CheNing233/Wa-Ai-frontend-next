@@ -7,7 +7,7 @@ import App from "./App.tsx";
 import { Provider } from "./provider.tsx";
 
 import "@/styles/globals.css";
-import { app } from "@/app/app.tsx";
+import { $app } from "@/app/app.tsx";
 
 
 const consoleError = console.error;
@@ -50,4 +50,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   </React.StrictMode>
 );
 
-app.showVersion();
+$app.showVersion();

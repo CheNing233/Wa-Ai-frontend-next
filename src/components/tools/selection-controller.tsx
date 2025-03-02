@@ -26,6 +26,7 @@ const SelectionControllerContext = createContext<
 export interface SelectionControllerElement {
   eventTarget: EventTarget,
   clearItems: () => void,
+  selectItem: (item: SelectionItemProps) => void,
   selectAllItems: () => void,
   getSelectedItems: (data: SelectionItemProps[]) => SelectionItemProps[]
 }
@@ -46,6 +47,10 @@ export const SelectionController = forwardRef<
     contextValue.eventTarget.dispatchEvent(new CustomEvent("clear"));
   };
 
+  const handleSelect = (item: SelectionItemProps) => {
+    contextValue.eventTarget.dispatchEvent(new CustomEvent("select", { detail: item }));
+  };
+
   const handleSelectAll = () => {
     contextValue.eventTarget.dispatchEvent(new CustomEvent("selectAll"));
   };
@@ -58,6 +63,7 @@ export const SelectionController = forwardRef<
   useImperativeHandle(ref, () => ({
     eventTarget: eventTarget.current,
     clearItems: handleClear,
+    selectItem: handleSelect,
     selectAllItems: handleSelectAll,
     getSelectedItems: getSelectedItems
   }), [contextValue.eventTarget]);
@@ -105,16 +111,24 @@ export const useSelectionController = (
 
   useEffect(() => {
     context.eventTarget.addEventListener("clear", handleClear);
+    context.eventTarget.addEventListener("select", handleSelectByEvent);
     context.eventTarget.addEventListener("selectAll", handleSelectAll);
 
     return () => {
       context.eventTarget.removeEventListener("clear", handleClear);
+      context.eventTarget.removeEventListener("select", handleSelectByEvent);
       context.eventTarget.removeEventListener("selectAll", handleSelectAll);
     };
   }, []);
 
   const handleClear = () => {
     updateItemFunc(() => true, { isSelected: false });
+  };
+
+  const handleSelectByEvent = (e: any) => {
+    const item: SelectionItemProps = (e as CustomEvent).detail;
+
+    handleClick(item);
   };
 
   const handleSelectAll = () => {
@@ -139,13 +153,13 @@ export const useSelectionController = (
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (target: SelectionItemProps = item) => {
     if (context.selectedMode === "single") {
-      handleSingleSelect();
+      handleSingleSelect(target);
     } else {
       handleMultiSelect();
     }
-    context.eventTarget.dispatchEvent(new CustomEvent("selectionChange", { detail: item }));
+    context.eventTarget.dispatchEvent(new CustomEvent("selectionChange", { detail: target }));
   };
 
   return {
@@ -213,6 +227,10 @@ const SelectionWrapper: React.FC<SelectionWrapperProps> = (
         <div
           className={"pointer-events-none absolute left-3 top-3 z-[9999]"}
           style={{
+            borderStyle: "solid",
+            borderColor: "transparent",
+            borderRadius: "4px",
+            background: "rgba(0, 0, 0, 0.3)",
             backdropFilter: "blur(15px)"
           }}
         >

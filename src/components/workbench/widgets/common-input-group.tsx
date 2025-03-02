@@ -2,7 +2,7 @@ import { ParamFieldConfig, ParamGroupConfig } from "@/app/param-form.ts";
 import React, { FC, useState } from "react";
 import { GroupTitle } from "@/components/workbench/common/group-title.tsx";
 import { Card, CardBody } from "@heroui/card";
-import { useParamFormsVM } from "@/controller/useParamFormsVM.tsx";
+import { useParamFormsVM } from "@/viewModels/useParamFormsVM.tsx";
 import NativePopover from "@/components/common/native-popover.tsx";
 import AutocompleteHelper from "@/components/workbench/common/autocomplete-helper.tsx";
 import { Input } from "@heroui/input";

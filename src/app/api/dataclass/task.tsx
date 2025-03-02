@@ -1,5 +1,5 @@
 import { TaskType } from "@/app/api/model/task.ts";
-import { app } from "@/app/app.tsx";
+import { $app } from "@/app/app.tsx";
 import { BaseDataCls } from "@/app/api/dataclass/base.ts";
 
 
@@ -19,7 +19,7 @@ export class TaskDataCls extends BaseDataCls {
   async getImageUrl(signal: AbortSignal) {
     if (this.imageUrl) return this.imageUrl;
 
-    const url = await app.staticImage.getStaticImageUrlById({
+    const url = await $app.staticImage.getStaticImageUrlById({
       id: this.raw_data.id,
       signal: signal
     });
@@ -32,6 +32,6 @@ export class TaskDataCls extends BaseDataCls {
   }
 
   downloadImage(url: string, filename: string) {
-    app.staticImage.downloadImage(url, filename);
+    $app.staticImage.downloadImage(url, filename);
   }
 }

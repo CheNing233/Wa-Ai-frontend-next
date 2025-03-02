@@ -1,5 +1,5 @@
 import { BaseDataCls } from "@/app/api/dataclass/base.ts";
-import { app } from "@/app/app.tsx";
+import { $app } from "@/app/app.tsx";
 import { WaterfallItems } from "../../../../../WebstormProjects/xcn-waterfall";
 import { FC } from "react";
 
@@ -26,7 +26,7 @@ export class WaterfallTool {
 
     if (!imageUrl) throw new Error("[buildWaterfallItem] imageUrl is null");
 
-    const { width, height } = await app.staticImage.getImageDimensions(imageUrl as string);
+    const { width, height } = await $app.staticImage.getImageDimensions(imageUrl as string);
 
     const Card = imageCard;
 

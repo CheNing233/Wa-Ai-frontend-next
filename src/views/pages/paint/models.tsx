@@ -1,7 +1,7 @@
 import { Select, SelectItem } from "@heroui/select";
 import { useState } from "react";
 
-import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
+import { WaterfallItems, XCNWaterfall } from "../../../../../../WebstormProjects/xcn-waterfall";
 
 import ImageCard from "@/components/common/image-card.tsx";
 import Container from "@/components/common/container.tsx";

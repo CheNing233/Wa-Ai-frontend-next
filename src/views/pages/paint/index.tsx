@@ -5,31 +5,31 @@ import { sidebarMenuConfig } from "@/config/menus.tsx";
 import lazyLoad from "@/utils/lazyload.tsx";
 
 const Home = lazyLoad(
-  () => import("@/pages/paint/home.tsx")
+  () => import("@/views/pages/paint/home.tsx")
 );
 
 const Posts = lazyLoad(
-  () => import("@/pages/paint/posts.tsx")
+  () => import("@/views/pages/paint/posts.tsx")
 );
 
 const Models = lazyLoad(
-  () => import("@/pages/paint/models.tsx")
+  () => import("@/views/pages/paint/models.tsx")
 );
 
 const Prompts = lazyLoad(
-  () => import("@/pages/paint/prompts.tsx")
+  () => import("@/views/pages/paint/prompts.tsx")
 );
 
 const QuickStart = lazyLoad(
-  () => import("@/pages/paint/quick-start.tsx")
+  () => import("@/views/pages/paint/quick-start.tsx")
 );
 
 const A1111 = lazyLoad(
-  () => import("@/pages/paint/a1111.tsx")
+  () => import("@/views/pages/paint/a1111.tsx")
 );
 
 const Comfy = lazyLoad(
-  () => import("@/pages/paint/comfy.tsx")
+  () => import("@/views/pages/paint/comfy.tsx")
 );
 
 export default function PaintPage() {

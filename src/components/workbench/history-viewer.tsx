@@ -1,5 +1,5 @@
 import { Button } from "@heroui/button";
-import { CopyCheck, Download, Eye, EyeOff, Heart, Send, Settings, Star, ZoomIn } from "lucide-react";
+import { CopyCheck, Download, Ellipsis, Eye, Heart, LayoutList, Send, Star, Trash, ZoomIn } from "lucide-react";
 import { ScrollShadow } from "@heroui/scroll-shadow";
 import { useEffect, useRef, useState } from "react";
 import { Card, CardBody } from "@heroui/card";
@@ -9,10 +9,11 @@ import { Tooltip } from "@heroui/tooltip";
 import { WaterfallItems, XCNWaterfall } from "../../../../../WebstormProjects/xcn-waterfall";
 import TiltCard from "@/components/tilt-card.tsx";
 import { TaskDataCls } from "@/app/api/dataclass/task.tsx";
-import { app } from "@/app/app.tsx";
+import { $app } from "@/app/app.tsx";
 import { WaterfallTool } from "@/app/tools/waterfall.tsx";
 import { TaskCard } from "@/components/waterfall/taskImageCard.tsx";
 import { SelectionController, SelectionControllerElement } from "@/components/tools/selection-controller.tsx";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
 
 
 export default function HistoryViewer() {
@@ -49,9 +50,11 @@ export default function HistoryViewer() {
 
   const handleRequestBottomMore: (reqCount: number) => Promise<WaterfallItems[]> =
     (reqCount) => {
+      console.log("handleRequestBottomMore", reqCount);
+
       return new Promise<WaterfallItems[]>(
         (resolve, reject) => {
-          app.task.getTaskByUser({
+          $app.task.getTaskByUser({
             page: reqCount,
             pageSize: 12
           })
@@ -71,6 +74,11 @@ export default function HistoryViewer() {
               Promise.all(promiseList)
                 .then((waterfallItems: WaterfallItems[]) => {
                   resolve(waterfallItems);
+                  if (reqCount === 0) {
+                    setTimeout(() => {
+                      selectedControllerRef.current?.selectItem(waterfallItems[0]);
+                    }, 100);
+                  }
                 })
                 .catch(reject);
             })
@@ -84,10 +92,9 @@ export default function HistoryViewer() {
       <CardBody className={"flex flex-row gap-2 overflow-hidden"}>
 
         {showViewer && <div className={
-          "flex-1 animate-appearance-in pt-7"
+          "flex-1 flex flex-col gap-2"
         }>
           <div className={
-            "absolute top-0 left-1 " +
             "flex flex-row gap-2 z-10"
           }>
             <Tooltip content={"发帖"}>
@@ -143,22 +150,23 @@ export default function HistoryViewer() {
             </Tooltip>
           </div>
 
-          <TiltCard
-            cardAspectRatio={`${currentItem?.width || 600}/${currentItem?.height || 600}`}
-            cardMaxHeight={"calc(100dvh - 128px - 84px)"}
-            cardMaxWidth={"calc(100% - 16px)"}
-            cardSlot={(
-              <Image
-                className={"object-contain"}
-                isBlurred={true}
-                src={currentItem?.dataCls?.imageUrl}
-                style={{
-                  opacity: 1,
-                  aspectRatio: `${currentItem?.width || 600}/${currentItem?.height || 600}`
-                }}
-              />
-            )}
-          />
+          <div className={"flex-1 relative p-1"}>
+            <TiltCard
+              cardAspectRatio={`${currentItem?.width || 600}/${currentItem?.height || 600}`}
+              cardMaxWidth={"calc(100% - 16px)"}
+              cardSlot={(
+                <Image
+                  className={"object-contain"}
+                  isBlurred={true}
+                  src={currentItem?.dataCls?.imageUrl}
+                  style={{
+                    opacity: 1,
+                    aspectRatio: `${currentItem?.width || 600}/${currentItem?.height || 600}`
+                  }}
+                />
+              )}
+            />
+          </div>
 
         </div>}
 
@@ -167,19 +175,27 @@ export default function HistoryViewer() {
           (showViewer ? "basis-52" : "flex-1")
         }>
           <div className={"flex-1 flex flex-row justify-end gap-2"}>
-            <Tooltip content={"显示预览"}>
+            <Tooltip content={showViewer ? "切换列表" : "显示预览"}>
               <Button
-                isIconOnly={true} size={"sm"}
+                size={"sm"}
+                startContent={
+                  <>
+                    <LayoutList className={showViewer ? "inline" : "hidden"} size={20} />
+                    <Eye className={!showViewer ? "inline" : "hidden"} size={20} />
+                  </>
+                }
                 onPress={() => setShowViewer(!showViewer)}
               >
-                <Eye className={showViewer ? "inline" : "hidden"} size={20} />
-                <EyeOff className={!showViewer ? "inline" : "hidden"} size={20} />
+                <span className={"font-semibold"}>
+                  {showViewer ? "切换列表" : "显示预览"}
+                </span>
               </Button>
             </Tooltip>
 
-            <Tooltip content={"多选"}>
+            <Tooltip content={selectedMode === "single" ? "多选" : "退出多选"}>
               <Button
-                color={selectedMode === "multi" ? "primary" : "default"} isIconOnly={true}
+                color={selectedMode === "multi" ? "primary" : "default"}
+                isIconOnly={true}
                 size={"sm"}
                 variant={selectedMode === "multi" ? "shadow" : "solid"}
                 onPress={() => setSelectedMode(selectedMode === "single" ? "multi" : "single")}
@@ -188,11 +204,28 @@ export default function HistoryViewer() {
               </Button>
             </Tooltip>
 
-            <Tooltip content={"设置"}>
-              <Button isIconOnly={true} size={"sm"}>
-                <Settings size={20} />
-              </Button>
-            </Tooltip>
+            {selectedMode === "multi" && (
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    aria-label={"更多操作"}
+                    color={"secondary"}
+                    isIconOnly={true}
+                    size={"sm"}
+                  >
+                    <Ellipsis size={20} />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem key={"posted"} startContent={<Send size={20} />}>
+                    发帖
+                  </DropdownItem>
+                  <DropdownItem key={"delete"} color={"danger"} startContent={<Trash size={20} />}>
+                    删除
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            )}
           </div>
 
           <SelectionController

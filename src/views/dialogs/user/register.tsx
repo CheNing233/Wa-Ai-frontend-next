@@ -1,45 +1,50 @@
 import { ModalBody, ModalFooter, ModalHeader } from "@heroui/modal";
 import { Input } from "@heroui/input";
-import { Hourglass, Lock, Mail, Send } from "lucide-react";
+import { Github, Hourglass, Lock, Mail, Send, Tag, User } from "lucide-react";
 import { Link } from "@heroui/link";
 import { Button } from "@heroui/button";
+import { Divider } from "@heroui/divider";
+import { Chip } from "@heroui/chip";
 import { InputOtp } from "@heroui/input-otp";
 import { Form } from "@heroui/form";
 import { FormEvent, useState } from "react";
 
 import { SpinWrapper } from "@/components/common/spin-wrapper.tsx";
-import { useUserVM } from "@/controller/useUserVM.tsx";
-import { ResetPasswordParams } from "@/app/api/model/user.ts";
-import { app } from "@/app/app.tsx";
+import { useUserVM } from "@/viewModels/useUserVM.tsx";
+import { $app } from "@/app/app.tsx";
+import { RegisterParams } from "@/app/api/model/user.ts";
 
-export default function UserForgetPassword({ onLogin }: { onLogin: () => void }) {
+export default function UserRegister({ onLogin }: { onLogin: () => void }) {
   const { userState, sendEmailCode, sendEmailCodeCoolingTime } = useUserVM();
 
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [errors, setErrors] = useState({
     email: "",
-    emailCode: "",
+    userName: "",
     password: "",
-    rePassword: ""
+    rePassword: "",
+    emailCode: ""
   });
 
+  // 验证规则
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const userNamePattern = /^[a-zA-Z0-9]+$/;
 
   const validateForm = () => {
     const newErrors = {
       email: "",
-      emailCode: "",
+      userName: "",
       password: "",
-      rePassword: ""
+      rePassword: "",
+      emailCode: ""
     };
 
     // 邮箱验证
-    if (!email) {
-      newErrors.email = "邮箱不能为空";
-    } else if (!emailPattern.test(email)) {
+    if (!emailPattern.test(email)) {
       newErrors.email = "请输入有效的邮箱地址";
     }
 
@@ -48,17 +53,20 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
       newErrors.emailCode = "请输入6位验证码";
     }
 
+    // 用户名验证
+    if (!userNamePattern.test(userName)) {
+      newErrors.userName = "只能包含字母和数字";
+    } else if (userName.length < 3) {
+      newErrors.userName = "用户名至少需要3个字符";
+    }
+
     // 密码验证
-    if (!password) {
-      newErrors.password = "密码不能为空";
-    } else if (password.length < 6) {
+    if (password.length < 6) {
       newErrors.password = "密码至少需要6位";
     }
 
-    // 确认密码验证
-    if (!rePassword) {
-      newErrors.rePassword = "请确认密码";
-    } else if (password !== rePassword) {
+    // 重复密码验证
+    if (password !== rePassword) {
       newErrors.rePassword = "两次输入的密码不一致";
     }
 
@@ -69,16 +77,20 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!validateForm()) return;
 
-    const p: ResetPasswordParams = {
-      email: email,
-      emailCode: emailCode,
-      password: password,
-      rePassword: rePassword
+    const formData = new FormData(e.currentTarget);
+    const p: RegisterParams = {
+      email: formData.get("email") as string,
+      emailCode: formData.get("emailCode") as string,
+      userName: formData.get("userName") as string,
+      nickName: formData.get("nickName") as string,
+      password: formData.get("password") as string,
+      rePassword: formData.get("rePassword") as string
     };
 
-    app.user.resetPassword(p).then((success) => {
+    $app.user.register(p).then((success) => {
       if (success) {
         onLogin(); // 返回登录页面
       }
@@ -94,7 +106,7 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
 
     sendEmailCode({
       email: email,
-      type: "forgetPassword"
+      type: "register"
     }).finally();
   };
 
@@ -102,14 +114,14 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
     <Form onSubmit={handleSubmit}>
       <SpinWrapper cursor="not-allowed" isLoading={userState === "pending"}>
         <ModalHeader className="flex flex-col gap-1 text-3xl text-center my-3">
-          重置密码
+          注册
         </ModalHeader>
         <ModalBody>
           <Input
+            isRequired
             endContent={<Mail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
             errorMessage={errors.email}
             isInvalid={!!errors.email}
-            isRequired={true}
             label="邮箱"
             name="email"
             placeholder="请输入邮箱"
@@ -124,9 +136,9 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
 
           <div className="flex flex-row gap-3 items-center">
             <InputOtp
+              isRequired
               errorMessage={errors.emailCode}
               isInvalid={!!errors.emailCode}
-              isRequired={true}
               length={6}
               name="emailCode"
               value={emailCode}
@@ -147,15 +159,38 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
           </div>
 
           <Input
+            isRequired
+            endContent={<User className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
+            errorMessage={errors.userName}
+            isInvalid={!!errors.userName}
+            label="用户名"
+            name="userName"
+            placeholder="请输入用户名"
+            variant="bordered"
+            onValueChange={(value) => {
+              setUserName(value);
+              setErrors(prev => ({ ...prev, userName: "" }));
+            }}
+          />
+
+          <Input
+            isRequired
+            endContent={<Tag className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
+            label="昵称"
+            name="nickName"
+            placeholder="请输入昵称"
+            variant="bordered"
+          />
+
+          <Input
+            isRequired
             endContent={<Lock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
             errorMessage={errors.password}
             isInvalid={!!errors.password}
-            isRequired={true}
             label="密码"
             name="password"
             placeholder="请输入密码"
             type="password"
-            value={password}
             variant="bordered"
             onValueChange={(value) => {
               setPassword(value);
@@ -164,15 +199,14 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
           />
 
           <Input
+            isRequired
             endContent={<Lock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
             errorMessage={errors.rePassword}
             isInvalid={!!errors.rePassword}
-            isRequired={true}
             label="确认密码"
             name="rePassword"
             placeholder="请再次输入密码"
             type="password"
-            value={rePassword}
             variant="bordered"
             onValueChange={(value) => {
               setRePassword(value);
@@ -181,12 +215,23 @@ export default function UserForgetPassword({ onLogin }: { onLogin: () => void })
           />
 
           <Button color="primary" type="submit" variant="shadow">
-            重置密码
+            注册
+          </Button>
+
+          {/* 其余代码保持不变 */}
+          <div className="w-full my-6">
+            <Divider />
+            <Chip className="absolute -translate-y-1/2 left-1/2 -translate-x-1/2">
+              其他账号
+            </Chip>
+          </div>
+          <Button startContent={<Github size={20} />} variant="shadow">
+            使用 Github 注册并登录
           </Button>
         </ModalBody>
         <ModalFooter>
           <div className="flex-auto text-center w-full">
-            我又想起来了! <Link className="cursor-pointer" onPress={onLogin}>返回登录喵！</Link>
+            我又有账号了! <Link className="cursor-pointer" onPress={onLogin}>返回登录喵！</Link>
           </div>
         </ModalFooter>
       </SpinWrapper>

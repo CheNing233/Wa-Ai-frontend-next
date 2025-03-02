@@ -1,13 +1,13 @@
 import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import { Plus } from "lucide-react";
-import { WaterfallItems, XCNWaterfall } from "xcn-waterfall";
+import { WaterfallItems, XCNWaterfall } from "../../../../../../WebstormProjects/xcn-waterfall";
 import { useState } from "react";
 import NiceModal from "@ebay/nice-modal-react";
 
 import Container from "@/components/common/container.tsx";
 import ImageCard from "@/components/common/image-card.tsx";
-import { modalIdsRegister } from "@/config/modals.ts";
+import { dialogIdsRegister } from "@/config/dialogs.ts";
 import BackTop from "@/components/common/back-top.tsx";
 
 const _generateItems = () => {
@@ -33,7 +33,7 @@ const _generateItems = () => {
               withRankBar={true}
               onCardClick={() => {
                 console.log("clicked", item.id);
-                NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
+                NiceModal.show(dialogIdsRegister.imagesModalViewer).finally();
               }}
             />
           </div>
@@ -81,7 +81,7 @@ export default function PostsPage() {
             startContent={<Plus size={20} />}
             variant={"shadow"}
             onPress={() => {
-              NiceModal.show(modalIdsRegister.imagesModalViewer).finally();
+              NiceModal.show(dialogIdsRegister.imagesModalViewer).finally();
             }}
           >
             发布帖子

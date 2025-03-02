@@ -126,7 +126,7 @@ const AutocompleteHelper = (
       <Card>
         <CardBody className={"pt-1.5 px-2 overflow-visible"}>
           <span className={"text-xs font-bold truncate"}>
-            <span className={"opacity-30 select-none"}>当前:</span> {tempValue}
+            <span className={"opacity-50 select-none"}>当前:</span> {tempValue}
           </span>
         </CardBody>
       </Card>

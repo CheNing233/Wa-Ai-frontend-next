@@ -26,5 +26,4 @@ export class WaApp {
   }
 }
 
-export const app = new WaApp();
-
+export const $app = new WaApp();

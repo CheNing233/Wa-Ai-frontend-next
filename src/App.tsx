@@ -1,8 +1,8 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 
-import ChatPage from "@/pages/chat";
-import AboutPage from "@/pages/about";
-import PaintPage from "@/pages/paint";
+import ChatPage from "@/views/pages/chat";
+import AboutPage from "@/views/pages/about.tsx";
+import PaintPage from "@/views/pages/paint";
 import { Header } from "@/components/header.tsx";
 import Background from "@/components/common/background.tsx";
 
@@ -22,5 +22,7 @@ function App() {
     </div>
   );
 }
+
+App.displayName = "WA";
 
 export default App;
