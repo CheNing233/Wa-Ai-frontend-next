@@ -13,7 +13,7 @@ export const SpinWrapper = (
   }
 ) => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full" tabIndex={-1}>
       {isLoading && <div className={
         "absolute w-full h-full bg-black opacity-50 z-10 " +
         `cursor-${cursor}`

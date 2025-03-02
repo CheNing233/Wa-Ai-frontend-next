@@ -8,12 +8,14 @@ interface AutocompletePopoverProps {
     ref: RefObject<any>,
     setOpen: (open: boolean) => void
   ) => ReactNode;
+  container?: Element | DocumentFragment;
 }
 
 const NativePopover: FC<AutocompletePopoverProps> = (
   {
     children,
-    content
+    content,
+    container = document.getElementById("root")!
   }
 ) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
@@ -78,6 +80,7 @@ const NativePopover: FC<AutocompletePopoverProps> = (
           ref={popoverRef}
           className={"absolute min-w-48 h-64"}
           style={{
+            zIndex: 9999,
             ...getPopoverStyle()
           }}
           onMouseDown={handlePopoverMouseDown}
@@ -86,7 +89,7 @@ const NativePopover: FC<AutocompletePopoverProps> = (
             {content}
           </CardBody>
         </Card>,
-        document.getElementById("root")!
+        container
       )}
     </div>
   );

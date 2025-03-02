@@ -13,10 +13,8 @@
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
     "@heroui/react": "^2.7.4",
-    "@heroui/system": "^2.4.10",
-    "@heroui/theme": "^2.4.9",
     "@loadable/component": "^5.16.4",
-    "@react-aria/visually-hidden": "3.8.12",
+    "@react-aria/visually-hidden": "^3.8.19",
     "@react-types/shared": "3.26.0",
     "axios": "^1.8.1",
     "clsx": "2.1.1",

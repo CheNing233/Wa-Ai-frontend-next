@@ -68,7 +68,7 @@ export interface ParamFormType {
   alias: string;
   type: "txt2img" | "img2img" | "extra";
   createdAt: string;
-  modifiedAt: string;
+  modifyAt: string;
   formContent: Txt2ImgParamType | Img2ImgParamType;
 }
 
@@ -118,7 +118,7 @@ export const useTI2I_ParamFormsStore = create(
         const updatedForms = [...state.forms];
 
         loSet(updatedForms[itemIndex].formContent, path, value);
-        updatedForms[itemIndex].modifiedAt = getChineseDateTime(new Date());
+        updatedForms[itemIndex].modifyAt = getChineseDateTime(new Date());
 
         set({ forms: updatedForms });
       },

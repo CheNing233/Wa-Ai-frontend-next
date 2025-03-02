@@ -77,7 +77,7 @@ export class WaParamForm {
       alias: alias,
       type: formType,
       createdAt: getChineseDateTime(new Date()),
-      modifiedAt: getChineseDateTime(new Date()),
+      modifyAt: getChineseDateTime(new Date()),
       formContent: {
         prompt: "",
         steps: 28,

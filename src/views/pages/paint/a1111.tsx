@@ -40,7 +40,14 @@ const FormDropdown = () => {
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
         <DropdownSection title={"操作"}>
-          <DropdownItem key="new">新建工作台</DropdownItem>
+          <DropdownItem
+            key="new"
+            onPress={() => {
+              NiceModal.show(dialogIdsRegister.workbenchNew).finally();
+            }}
+          >
+            新建工作台
+          </DropdownItem>
           <DropdownItem
             key="edit"
             onPress={() => {
@@ -55,6 +62,7 @@ const FormDropdown = () => {
             forms.map(f => (
               <DropdownItem
                 key={f.id}
+                textValue={f.id}
                 onPress={() => setCurrentId(f.id)}
               >
                 <div className={"flex flex-row items-center gap-2"}>
